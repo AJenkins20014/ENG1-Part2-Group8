@@ -1,3 +1,7 @@
+/**
+ * The GameManager class controls the game logic and interactions between various game elements.
+ * It manages player movements, interactions with buildings and activities, as well as the game's progression.
+ */
 package com.eng1.heslingtonhustle;
 
 import com.badlogic.gdx.Gdx;
@@ -32,6 +36,14 @@ public class GameManager {
     private boolean playerInBuilding = false;
     private Building currentBuilding;
 
+    /**
+     * Constructs a new GameManager with the specified parameters.
+     * @param stage The stage where the game is rendered
+     * @param mapManager Manages the game map
+     * @param playerManager Manages the player
+     * @param buildingManager Manages buildings in the game
+     * @param renderingManager Manages rendering elements
+     */
     public GameManager(Stage stage, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager, RenderingManager renderManager) {
         this.stage = stage;
         this.mapManager = mapManager;
@@ -42,7 +54,10 @@ public class GameManager {
         this.renderingManager = renderManager;
     }
 
-
+    /**
+     * Checks if any building is within the player's interaction range.
+     * @return The building in range, or null if none.
+     */
     private Building checkForBuildingInRange() {
         List<Building> buildings = buildingManager.getCampusBuildings();
         Vector2 position = playerManager.getPosition();
@@ -54,14 +69,20 @@ public class GameManager {
         return null;
     }
 
+    /**
+     * Interacts with the specified building if the player is in the INTERACTING state.
+     * @param building The building to interact with
+     */
     private void interactWithBuilding(Building building) {
         if (playerManager.getState().isINTERACTING()) {
             playerManager.getState().stopInteracting();
             enterBuilding(building);
         }
     }
-
-
+    
+    /**
+     * Shows an error dialog indicating that the player can't perform an activity.
+     */
     private void showErrorDialog() {
         Dialog dialog = createDialog();
         Timer.schedule(new Timer.Task() {
@@ -78,6 +99,10 @@ public class GameManager {
         }, .45f);
     }
 
+    /**
+     * Creates a dialog with an error message.
+     * @return The created dialog.
+     */
     private Dialog createDialog() {
         Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
         Dialog dialog = new Dialog("Can't do activity.", skin);
@@ -87,6 +112,10 @@ public class GameManager {
         return dialog;
     }
 
+    /**
+     * Enters the specified building, changes the map, and updates player state.
+     * @param building The building to enter
+     */
     private void enterBuilding(Building building) {
         playerManager.getState().inMenu();
         String newMapPath = mapManager.getMapPath(building.getName());
@@ -104,6 +133,11 @@ public class GameManager {
         }, .05f);
     }
 
+    /**
+     * Checks if the player is within an exit zone.
+     * @param position The position to check
+     * @return True if the player is within an exit zone, otherwise false
+     */
     private boolean playerInExitZone(Vector2 position) {
         for (Rectangle exitZone : mapManager.getExitTiles()) {
             if (exitZone.contains(position.x, position.y)) {
@@ -113,6 +147,9 @@ public class GameManager {
         return false;
     }
 
+    /**
+     * Exits the current building if the player is in the INTERACTING state and within an exit zone.
+     */
     private void exitBuilding() {
         if (playerManager.getState().isINTERACTING() && playerInExitZone(playerManager.getPosition())) {
             playerManager.getState().stopInteracting();
@@ -124,6 +161,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * Checks if the player is within an activity zone.
+     * @param position The position to check
+     * @return The ActivityTile if the player is within an activity zone, otherwise null
+     */
     private ActivityTile playerInActivityZone(Vector2 position) {
         for (ActivityTile activityZone : mapManager.getActivityTiles()) {
             if (activityZone.getRectangle().contains(position.x, position.y)) {
@@ -133,8 +175,10 @@ public class GameManager {
         return null;
     }
 
-
-
+    /**
+     * Handles the specified activity, showing an error dialog if it can't be performed.
+     * @param activity The activity to handle
+     */
     private void handleActivity(Activity activity) {
         boolean performed = activity.perform(playerManager);
         if (!performed) {
@@ -147,6 +191,9 @@ public class GameManager {
         }
     }
 
+    /**
+     * Ends the game by displaying the end map, hiding the player, and showing the final score.
+     */
     public void endGame() {
         mapManager.displayEndMap();
         buildingManager.makeBuildingsDisappear();
@@ -158,6 +205,10 @@ public class GameManager {
         renderingManager.getGameUI().showScore(playerManager.getWeek());
     }
 
+    /**
+     * Updates the game state, checking for player interactions with buildings and activities,
+     * and updating the UI accordingly.
+     */
     public void update() {
         boolean displayInteract = false;
         if (!playerInBuilding) {
@@ -187,6 +238,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * Asks the player if they want to perform the specified activity.
+     * Handles the player's choice and proceeds accordingly.
+     * @param activity The activity to ask about
+     */
     private void askToDoActivity(Activity activity) {
         if (playerManager.getState().isINTERACTING()) {
             playerManager.getState().stopInteracting();
