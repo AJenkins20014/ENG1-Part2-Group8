@@ -1,3 +1,6 @@
+/**
+ * The Energy class represents the player's energy level.
+ */
 package com.eng1.heslingtonhustle.gameobjects;
 
 public class Energy {
