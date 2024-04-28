@@ -1,3 +1,8 @@
+/**
+ * The BuildingManager class manages buildings within the game.
+ * It loads building information from a JSON file and creates building instances.
+ * It also provides methods to access campus buildings and manage their visibility.
+ */
 package com.eng1.heslingtonhustle.building;
 
 import com.badlogic.gdx.Gdx;
@@ -22,11 +27,19 @@ public class BuildingManager {
 
     private final List<Building> campusBuildings;
 
+    /**
+     * Constructs a new BuildingManager and loads building information from a JSON file.
+     * It creates building instances based on the loaded information.
+     */
     public BuildingManager() {
         Map<String, Building> buildingMap = loadBuildingInfo();
         campusBuildings = createBuildings(buildingMap);
     }
 
+    /**
+     * Loads building information from a JSON file and creates a map of building IDs to building instances.
+     * @return A map containing building IDs as keys and corresponding building instances as values
+     */
     private static Map<String, Building> loadBuildingInfo() {
         Gson gson = new Gson();
         Map<String, Building> buildingMap = new HashMap<>();
@@ -44,6 +57,11 @@ public class BuildingManager {
         return buildingMap;
     }
 
+    /**
+     * Creates building instances based on the provided building map and campus layout.
+     * @param buildingMap A map containing building IDs as keys and corresponding building instances as values
+     * @return A list of created building instances
+     */
     private List<Building> createBuildings(Map<String, Building> buildingMap) {
         List<Building> buildings = new ArrayList<>();
         TiledMap map = new TmxMapLoader().load("maps/campus_east.tmx");
@@ -60,16 +78,26 @@ public class BuildingManager {
         return buildings;
     }
 
+    /**
+     * Retrieves the list of campus buildings.
+     * @return The list of campus buildings
+     */
     public List<Building> getCampusBuildings() {
         return campusBuildings;
     }
 
+    /**
+     * Sets the visibility of all campus buildings to false, making them disappear.
+     */
     public void makeBuildingsDisappear() {
         for (Building building : campusBuildings) {
             building.setVisible(false);
         }
     }
 
+    /**
+     * Sets the visibility of all campus buildings to true, making them appear.
+     */
     public void makeBuildingsAppear() {
         for (Building building : campusBuildings) {
             building.setVisible(true);
