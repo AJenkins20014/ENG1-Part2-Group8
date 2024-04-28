@@ -1,3 +1,7 @@
+/**
+ * The GameUI class manages the user interface elements displayed during the game.
+ * It includes functionalities to display energy level, progress bar, time, day, interaction messages, and score.
+ */
 package com.eng1.heslingtonhustle.graphics;
 
 import com.badlogic.gdx.Gdx;
@@ -27,7 +31,11 @@ public class GameUI {
     private final Skin skin;
     private Label interactLabel;
 
-
+    /**
+     * Constructs a new GameUI instance with the given Stage and PlayerManager.
+     * @param uiStage The Stage instance for UI elements
+     * @param playerManager The PlayerManager instance
+     */
     public GameUI(Stage uiStage, PlayerManager playerManager) {
         this.uiStage = uiStage;
         this.playerManager = playerManager;
@@ -40,6 +48,9 @@ public class GameUI {
         initUI();
     }
 
+    /**
+     * Initializes the UI elements.
+     */
     private void initUI() {
 
         Label energyLabel = new Label("Energy: ", skin);
@@ -85,20 +96,33 @@ public class GameUI {
         uiStage.addActor(table);
     }
 
+    /**
+     * Updates the progress bar, time label, and day label.
+     */
     public void updateProgressBar() {
         progressBar.setValue(playerManager.getEnergy().getEnergyLevel());
         timeLabel.setText("Time: "+time.toString());
         dayLabel.setText("Day: "+time.getDay());
     }
 
+    /**
+     * Shows the interaction message.
+     */
     public void showInteractMessage() {
         interactLabel.setVisible(true);
     }
 
+    /**
+     * Hides the interaction message.
+     */
     public void hideInteractMessage() {
         interactLabel.setVisible(false);
     }
 
+    /**
+     * Displays the final score.
+     * @param week The list of Day objects representing the week's activities
+     */
     public void showScore(List<Day> week){
         uiStage.clear();
         scoreTable = new Table();
@@ -132,13 +156,16 @@ public class GameUI {
         highScoreLabel.setAlignment(Align.center);
         scoreTable.add(highScoreLabel).expandX().center().colspan(4).padTop(10).bottom();
 
-
         scoreTable.row().pad(10).bottom();
-
     }
 
-
-
+    /**
+     * Adds a row of statistics for a specific day to the score table.
+     * @param dayLabel The label representing the day
+     * @param studySessions The number of study sessions for the day
+     * @param eaten The number of times eaten for the day
+     * @param relaxed The number of times relaxed for the day
+     */
     private void addDayStatsLabel(String dayLabel, int studySessions, int eaten, int relaxed) {
         scoreTable.row().pad(10);
         scoreTable.add(new Label(dayLabel, skin)).expandX().center().bottom();
@@ -147,6 +174,11 @@ public class GameUI {
         scoreTable.add(new Label(String.valueOf(relaxed), skin)).expandX().center().bottom();
     }
 
+    /**
+     * Calculates the score based on the statistics of the week.
+     * @param week The list of Day objects representing the week's statistics
+     * @return The calculated score
+     */
     private int calculateScore(List<Day> week) {
         int studyCount = 0;
         int dayStudiedOnce = 0;

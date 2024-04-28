@@ -1,3 +1,7 @@
+/**
+ * The RenderingManager class handles rendering of game elements such as buildings, player, and UI.
+ * It manages the camera, shaders, and rendering logic.
+ */
 package com.eng1.heslingtonhustle.graphics;
 
 import com.badlogic.gdx.Gdx;
@@ -15,7 +19,6 @@ import com.eng1.heslingtonhustle.player.PlayerManager;
 
 import java.util.List;
 
-
 public class RenderingManager {
 
     private static final float SCALE = 5f;
@@ -28,6 +31,12 @@ public class RenderingManager {
     private final GameUI gameUI;
     private boolean playerVisible = true;
 
+    /**
+     * Constructs a new RenderingManager with the given camera, map manager, and player manager.
+     * @param cameraManager The CameraManager instance
+     * @param mapManager The MapManager instance
+     * @param playerManager The PlayerManager instance
+     */
     public RenderingManager(CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager) {
         this.batch = new SpriteBatch();
         this.cameraManager = cameraManager;
@@ -41,6 +50,10 @@ public class RenderingManager {
         }
     }
 
+    /**
+     * Sets up the shader program for special effects.
+     * @return True if shader setup is successful, false otherwise
+     */
     private boolean shaderSetup() {
         try {
             String vertexShader = Gdx.files.internal("shader/vertexShader.glsl").readString();
@@ -62,7 +75,11 @@ public class RenderingManager {
         }
     }
 
-
+    /**
+     * Renders the game elements including buildings, player, and UI.
+     * @param buildings The list of buildings to render
+     * @param playerManager The PlayerManager instance
+     */
     public void render(List<Building> buildings, PlayerManager playerManager) {
         Movement playerMovement = playerManager.getMovement();
         cameraManager.render(batch, mapManager,playerMovement.getPosition());
@@ -84,6 +101,11 @@ public class RenderingManager {
 
     }
 
+    /**
+     * Adjusts the daylight brightness based on the time of day and renders the overlay accordingly.
+     * @param playerManager The PlayerManager instance
+     * @param playerMovement The Movement instance of the player
+     */
     private void daylight(PlayerManager playerManager, Movement playerMovement) {
         float brightness = calculateBrightness(playerManager.getTime().getTime());
         batch.setColor(1, 1, 1, 1 - brightness);
@@ -92,7 +114,11 @@ public class RenderingManager {
                 , Gdx.graphics.getWidth()*2, Gdx.graphics.getHeight()*2);
     }
 
-    // Function to calculate brightness based on time of day
+    /**
+     * Calculates the brightness of the daylight based on the time of day.
+     * @param timeOfDay The current time of day
+     * @return The calculated brightness value
+     */
     private float calculateBrightness(int timeOfDay) {
 
         float initialBrightness = 1.0f;
@@ -105,9 +131,12 @@ public class RenderingManager {
         return Math.max(finalBrightness, Math.min(initialBrightness, currentBrightness));
     }
 
-
-
-    private void renderBuildings(List<Building> buildings,Movement player) {
+    /**
+     * Renders all the buildings on the map.
+     * @param buildings The list of buildings to render
+     * @param player The Movement instance of the player
+     */
+    private void renderBuildings(List<Building> buildings, Movement player) {
 
         for (Building building : buildings) {
             if (!building.isVisible()) {
@@ -128,11 +157,18 @@ public class RenderingManager {
         }
     }
 
-
+    /**
+     * Renders a single building on the map.
+     * @param building The Building object to render
+     */
     private void renderBuilding(Building building) {
         renderTexture(building.getTextureRegion(), building.getPosition());
     }
 
+    /**
+     * Renders an outline around a building.
+     * @param building The Building object to outline
+     */
     public void outlineBuilding(Building building) {
         TextureRegion textureRegion = building.getTextureRegion();
         Vector2 position = building.getPosition();
@@ -147,7 +183,14 @@ public class RenderingManager {
         renderTexture(textureRegion, position, SCALE, SCALE, false);
     }
 
-
+    /**
+     * Renders a texture with optional outline effect.
+     * @param textureRegion The texture region to render
+     * @param position The position to render the texture
+     * @param scaleX The scale factor on the X-axis
+     * @param scaleY The scale factor on the Y-axis
+     * @param outline Whether to render an outline effect
+     */
     private void renderTexture(TextureRegion textureRegion, Vector2 position, float scaleX, float scaleY, boolean outline) {
         float x = position.x;
         float y = position.y;
@@ -162,15 +205,29 @@ public class RenderingManager {
         batch.draw(textureRegion, x, y, width, height);
     }
 
+    /**
+     * Renders a texture at the specified position with the default scale.
+     * @param textureRegion The texture region to render
+     * @param position The position to render the texture
+     */
     private void renderTexture(TextureRegion textureRegion, Vector2 position) {
         renderTexture(textureRegion, position, SCALE, SCALE, false);
     }
 
-
+    /**
+     * Calculates the offset needed to center a texture based on its scale.
+     * @param length The length of the texture region
+     * @param scale The scale factor of the texture
+     * @return The offset value
+     */
     private float calculateOffset(float length, float scale) {
         return length * (scale - SCALE) / 2f;
     }
 
+    /**
+     * Renders the player character on the map.
+     * @param playerMovement The Movement object representing the player
+     */
     private void renderPlayer(Movement playerMovement) {
         if (playerVisible) {
             TextureRegion currentFrame = playerMovement.getCurrentFrame();
@@ -180,13 +237,18 @@ public class RenderingManager {
         }
     }
 
+    /**
+     * Retrieves the GameUI instance associated with this rendering manager.
+     * @return The GameUI instance
+     */
     public GameUI getGameUI() {
         return gameUI;
     }
 
+    /**
+     * Hides the player character from rendering.
+     */
     public void hidePlayer() {
         playerVisible = false;
     }
-
-
 }
