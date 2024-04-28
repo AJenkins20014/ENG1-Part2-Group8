@@ -1,3 +1,6 @@
+/**
+ * Handles the movement and animation of the player character.
+ */
 package com.eng1.heslingtonhustle.player;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -24,18 +27,30 @@ public class Movement {
     private Array<Rectangle> collidableTiles;
     private boolean movementEnabled = true;
 
-
+    /**
+     * Constructs a Movement instance with the specified player position and speed.
+     * @param position The initial position of the player.
+     * @param speed The speed of the player's movement.
+     */
     public Movement(Vector2 position, float speed) {
         this.position = position;
         this.speed = speed;
         this.state = new State();
         currentAnimation = downWalkAnimation;
     }
-
+    
+    /**
+     * Sets the collidable tiles for collision detection.
+     * @param collidableTiles Array of collidable tiles represented by rectangles.
+     */
     public void setCollidableTiles(Array<Rectangle> collidableTiles) {
         this.collidableTiles = collidableTiles;
     }
 
+    /**
+     * Updates the player's position and animation.
+     * @param deltaTime Time elapsed since the last frame.
+     */
     public void update(float deltaTime) {
         if (!movementEnabled) {
             return;
@@ -68,16 +83,33 @@ public class Movement {
 
     }
 
+    /**
+     * Checks for collision along the X axis.
+     * @param x The potential new X coordinate.
+     * @param y The current Y coordinate.
+     * @return True if collision occurs, false otherwise.
+     */
     private boolean collidesX(float x, float y) {
         Rectangle playerRect = new Rectangle(x, y, PLAYER_WIDTH, 0);
         return collides(playerRect);
     }
 
+    /**
+     * Checks for collision along the Y axis.
+     * @param x The current X coordinate.
+     * @param y The potential new Y coordinate.
+     * @return True if collision occurs, false otherwise.
+     */
     private boolean collidesY(float x, float y) {
         Rectangle playerRect = new Rectangle(x, y, 0, PLAYER_HEIGHT);
         return collides(playerRect);
     }
 
+    /**
+     * Checks for collision with collidable tiles.
+     * @param playerRect The rectangle representing the player's position.
+     * @return True if collision occurs, false otherwise.
+     */
     private boolean collides(Rectangle playerRect) {
         for (Rectangle rect : collidableTiles) {
             if (rect.overlaps(playerRect)) {
@@ -87,7 +119,9 @@ public class Movement {
         return false;
     }
 
-
+    /**
+     * Updates the current animation based on player movement.
+     */
     private void updateAnimation() {
         int moveDirectionY = state.getMoveDirectionY();
         int moveDirectionX = state.getMoveDirectionX();
@@ -106,24 +140,50 @@ public class Movement {
         }
     }
 
+    /**
+     * Retrieves the current frame of the player's animation.
+     * @return The current frame of the animation.
+     */
     public TextureRegion getCurrentFrame() {
         return currentFrame;
     }
 
+    /**
+     * Retrieves the current position of the player.
+     * @return The current position of the player.
+     */
     public Vector2 getPosition() {
         return position;
     }
 
+    /**
+     * Sets the position of the player.
+     * @param newPosition The new position of the player.
+     */
     public void setPosition(Vector2 newPosition) {
         this.position.x = newPosition.x;
         this.position.y = newPosition.y;
     }
 
+    /**
+     * Retrieves the state of the player.
+     * @return The state of the player.
+     */
     public State getPlayerState() {
         return state;
     }
 
+    /**
+     * Disables movement of the player.
+     */
     public void disableMovement() {
         movementEnabled = false;
+    }
+    
+    /**
+     * Enables movement of the player.
+     */
+    public void enableMovement() {
+    	movementEnabled = true;
     }
 }

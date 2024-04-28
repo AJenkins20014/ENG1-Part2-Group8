@@ -1,3 +1,6 @@
+/**
+ * Manages the tiled map and its rendering.
+ */
 package com.eng1.heslingtonhustle.map;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,6 +28,12 @@ public class MapManager {
     private final String defaultMapPath = "maps/campus_east.tmx";
     private String currentMapPath = "maps/campus_east.tmx";
 
+    /**
+     * Constructs a new MapManager instance.
+     * Loads the default map, initializes the map renderer,
+     * and parses the collidable tiles, exit tiles, and activity tiles.
+     * Also initializes the map paths for various locations.
+     */
     public MapManager() {
         tiledMap = new TmxMapLoader().load(defaultMapPath);
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE);
@@ -40,10 +49,11 @@ public class MapManager {
 
     }
 
-
-
-
-
+    /**
+     * Parses the tiles from the given MapObjects and adds them to the provided Array.
+     * @param objects The MapObjects to parse.
+     * @param tiles The Array to add the parsed tiles to.
+     */
     private void parseTiles(MapObjects objects, Array<Rectangle> tiles) {
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject) {
@@ -54,6 +64,10 @@ public class MapManager {
         }
     }
 
+    /**
+     * Parses the collidable tiles from the tiled map layers.
+     * If the "collisions" layer exists, extracts the collidable tiles and adds them to the collidableTiles array.
+     */
     private void parseCollidableTiles() {
         if (tiledMap.getLayers().get("collisions") != null) {
             MapObjects objects = tiledMap.getLayers().get("collisions").getObjects();
@@ -61,13 +75,21 @@ public class MapManager {
         }
     }
 
+    /**
+     * Parses the exit tiles from the tiled map layers.
+     * If the "exit" layer exists, extracts the exit tiles and adds them to the exitTiles array.
+     */
     private void parseExitTiles() {
         if(tiledMap.getLayers().get("exit") != null) {
             MapObjects objects = tiledMap.getLayers().get("exit").getObjects();
             parseTiles(objects, exitTiles);
         }
     }
-
+    
+    /**
+     * Parses the activity tiles from the tiled map layers.
+     * If the "activities" layer exists, extracts the activity tiles and adds them to the activityTiles array.
+     */
     private void parseActivityTiles() {
         if (tiledMap.getLayers().get("activities") != null) {
             MapObjects objects = tiledMap.getLayers().get("activities").getObjects();
@@ -83,25 +105,46 @@ public class MapManager {
         }
     }
 
-
+    /**
+     * Retrieves the array of collidable tiles.
+     * @return The array of collidable tiles.
+     */
     public Array<Rectangle> getCollidableTiles() {
         return collidableTiles;
     }
 
+    /**
+     * Retrieves the array of exit tiles.
+     * @return The array of exit tiles.
+     */
     public Array<Rectangle> getExitTiles() {
         return exitTiles;
     }
 
+    /**
+     * Retrieves the array of activity tiles.
+     * @return The array of activity tiles.
+     */
     public Array<ActivityTile> getActivityTiles() {
         return activityTiles;
     }
 
+    /**
+     * Sets the view of the OrthogonalTiledMapRenderer to the specified OrthographicCamera and renders the map.
+     * @param camera The OrthographicCamera to set the view to.
+     */
     public void render(OrthographicCamera camera) {
         mapRenderer.setView(camera);
         mapRenderer.render();
 
     }
 
+    /**
+     * Changes the current map to the one specified by the newMapPath. Disposes the current map if it exists,
+     * loads the new map, sets it to the OrthogonalTiledMapRenderer, clears collidableTiles, and parses collidable,
+     * exit, and activity tiles.
+     * @param newMapPath The path to the new map file.
+     */
     public void changeMap(String newMapPath) {
         if (tiledMap != null) {
             tiledMap.dispose();
@@ -114,7 +157,12 @@ public class MapManager {
         parseExitTiles();
         parseActivityTiles();
     }
-    // could change to call changeMapToCampus
+    
+    /**
+     * Changes the current map to the default campus map. Disposes the current map if it exists,
+     * loads the default map, sets it to the OrthogonalTiledMapRenderer, clears exitTiles, activityTiles,
+     * and collidableTiles, and parses collidable tiles.
+     */
     public void changeMapToCampus() {
         if (tiledMap!= null) {
             tiledMap.dispose();
@@ -128,11 +176,20 @@ public class MapManager {
         parseCollidableTiles();
     }
 
+    /**
+     * Retrieves the path of the specified map name from the mapPaths HashMap.
+     * @param mapName The name of the map.
+     * @return The path of the specified map.
+     */
     public String getMapPath(String mapName) {
         return mapPaths.get(mapName);
     }
 
-
+    /**
+     * Renders the specified layer overlay on top of the current map if it's the default campus map.
+     * @param camera The OrthographicCamera to set the view to.
+     * @param layerName The name of the layer to render.
+     */
     public void renderOverlay(OrthographicCamera camera, String layerName) {
         if (currentMapPath.equals(defaultMapPath)) {
             int layerIndex = tiledMap.getLayers().getIndex(layerName);
@@ -141,6 +198,10 @@ public class MapManager {
         }
     }
 
+    /**
+     * Displays the end game map by disposing the current map, loading the end game map,
+     * setting it to the OrthogonalTiledMapRenderer, and clearing collidableTiles.
+     */
     public void displayEndMap() {
         if (tiledMap!= null) {
             tiledMap.dispose();

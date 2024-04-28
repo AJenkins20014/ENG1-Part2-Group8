@@ -1,10 +1,17 @@
+/**
+ * Utility class for managing high scores.
+ */
 package com.eng1.heslingtonhustle.helper;
 
 import java.io.*;
 
 public class ScoreManager {
-    private static final String HIGHSCORE_FILE = "highscore.txt";
+    private static final String HIGHSCORE_FILE = "highscore.txt"; 
 
+    /**
+     * Loads the high score from a file.
+     * @return The loaded high score
+     */
     public static int loadHighScore() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(HIGHSCORE_FILE));
@@ -17,6 +24,10 @@ public class ScoreManager {
         }
     }
 
+    /**
+     * Saves the high score to a file.
+     * @param score The high score to be saved
+     */
     public static void saveHighScore(int score) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(HIGHSCORE_FILE));
