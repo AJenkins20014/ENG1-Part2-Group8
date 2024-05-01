@@ -12,6 +12,6 @@ public class AssetTests {
 	
 	@Test
 	public void testMusicAssetsExist() {
-		assertTrue("All music assets found", Gdx.files.internal("images/debug.png").exists());
+		assertTrue("All music assets found", Gdx.files.internal(Game.bgMusic).exists());
 	}
 }
