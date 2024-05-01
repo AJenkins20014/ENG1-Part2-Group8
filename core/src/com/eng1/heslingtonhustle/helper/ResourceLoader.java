@@ -10,11 +10,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class ResourceLoader {
 
-    public static final Texture walkSheet = new Texture(Gdx.files.internal("character2.png"));
-    public static final Texture buildings = new Texture(Gdx.files.internal("images/town.png"));
-
-    public static final Texture debug = new Texture(Gdx.files.internal("images/debug.png"));
-    public static final Texture overlay = new Texture(Gdx.files.internal("images/overlay.png"));
+	public static final String walkSheetPath = "../assets/character2.png";
+	public static final String buildingsPath = "../assets/images/town.png";
+	public static final Texture walkSheet = new Texture(Gdx.files.internal(walkSheetPath));
+    public static final Texture buildings = new Texture(Gdx.files.internal(buildingsPath));
+	
+	public static final String debugPath = "../assets/images/debug.png";
+	public static final String overlayPath = "../assets/images/overlay.png";
+    public static final Texture debug = new Texture(Gdx.files.internal(debugPath));
+    public static final Texture overlay = new Texture(Gdx.files.internal(overlayPath));
 
     /**
      * Retrieves the animation for character walking downwards.

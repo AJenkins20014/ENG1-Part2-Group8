@@ -5,13 +5,13 @@
 package com.eng1.heslingtonhustle.player;
 public class State {
 
-    private boolean UP;
-    private boolean DOWN;
-    private boolean LEFT;
-    private boolean RIGHT;
+    public boolean UP;
+    public boolean DOWN;
+    public boolean LEFT;
+    public boolean RIGHT;
 
-    private boolean INTERACTING;
-    private boolean IN_MENU;
+    public boolean INTERACTING;
+    public boolean IN_MENU;
 
     /**
      * Constructs a new State object with default values.

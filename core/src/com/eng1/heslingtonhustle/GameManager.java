@@ -35,6 +35,8 @@ public class GameManager {
     private Vector2 respawnLocation;
     private boolean playerInBuilding = false;
     private Building currentBuilding;
+    
+    public static final String uiSkin = "../assets/skin/default/uiskin.json";
 
     /**
      * Constructs a new GameManager with the specified parameters.
@@ -58,7 +60,7 @@ public class GameManager {
      * Checks if any building is within the player's interaction range.
      * @return The building in range, or null if none.
      */
-    private Building checkForBuildingInRange() {
+    public Building checkForBuildingInRange() {
         List<Building> buildings = buildingManager.getCampusBuildings();
         Vector2 position = playerManager.getPosition();
         for (Building building : buildings) {
@@ -103,8 +105,8 @@ public class GameManager {
      * Creates a dialog with an error message.
      * @return The created dialog.
      */
-    private Dialog createDialog() {
-        Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
+    public Dialog createDialog() {
+        Skin skin = new Skin(Gdx.files.internal(uiSkin));
         Dialog dialog = new Dialog("Can't do activity.", skin);
         dialog.text("Can't perform activity.");
         dialog.setSize(200, 100);
@@ -248,7 +250,7 @@ public class GameManager {
             playerManager.getState().stopInteracting();
             playerManager.getState().inMenu();
             Vector2 playerPosition = playerManager.getPosition();
-            Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
+            Skin skin = new Skin(Gdx.files.internal(uiSkin));
             Dialog dialog = new Dialog("Activity", skin) {
                 @Override
                 protected void result(Object object) {

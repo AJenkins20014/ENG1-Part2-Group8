@@ -30,6 +30,10 @@ public class GameUI {
     private Table scoreTable;
     private final Skin skin;
     private Label interactLabel;
+    
+    public static final String xpBackgroundPath = "../assets/skin/craftacular/raw/xp-bg.png";
+    public static final String xpFillPath = "../assets/skin/craftacular/raw/xp.png";
+    public static final String skinPath = "../assets/skin/craftacular/skin/craftacular-ui.json";
 
     /**
      * Constructs a new GameUI instance with the given Stage and PlayerManager.
@@ -40,11 +44,11 @@ public class GameUI {
         this.uiStage = uiStage;
         this.playerManager = playerManager;
         this.time = playerManager.getTime();
-        xpBackground = new Texture(Gdx.files.internal("skin/craftacular/raw/xp-bg.png"));
-        xpFill = new Texture(Gdx.files.internal("skin/craftacular/raw/xp.png"));
+        xpBackground = new Texture(Gdx.files.internal(xpBackgroundPath));
+        xpFill = new Texture(Gdx.files.internal(xpFillPath));
         progressBar = new ProgressBar(0, 100, 0.01f, false, new ProgressBar.ProgressBarStyle());
         // https://ray3k.wordpress.com/craftacular-ui-skin-for-libgdx/
-        skin = new Skin(Gdx.files.internal("skin/craftacular/skin/craftacular-ui.json"));
+        skin = new Skin(Gdx.files.internal(skinPath));
         initUI();
     }
 

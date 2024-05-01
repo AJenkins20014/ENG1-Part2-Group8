@@ -25,8 +25,15 @@ public class MapManager {
     private final Map<String, String> mapPaths;
     private final Array<Rectangle> exitTiles = new Array<>();
     private final Array<ActivityTile> activityTiles = new Array<>();
-    private final String defaultMapPath = "maps/campus_east.tmx";
+    
     private String currentMapPath = "maps/campus_east.tmx";
+    public static final String defaultMapPath = "../assets/maps/campus_east.tmx";
+    public static final String cafeMapPath = "../assets/maps/cafe.tmx";
+    public static final String cinemaMapPath = "../assets/maps/cinema.tmx";
+    public static final String compSciMapPath = "../assets/maps/compSci.tmx";
+    public static final String endGameMapPath = "../assets/maps/end_game.tmx";
+    public static final String homeMapPath = "../assets/maps/home.tmx";
+    public static final String libraryMapPath = "../assets/maps/library.tmx";
 
     /**
      * Constructs a new MapManager instance.
@@ -40,12 +47,12 @@ public class MapManager {
         parseCollidableTiles();
 
         mapPaths = new HashMap<>();
-        mapPaths.put("Library", "maps/library.tmx");
-        mapPaths.put("Cafe", "maps/cafe.tmx");
-        mapPaths.put("Cinema", "maps/cinema.tmx");
-        mapPaths.put("Home", "maps/home.tmx");
-        mapPaths.put("Computer Science Building", "maps/compSci.tmx");
-        mapPaths.put("Campus", "maps/campus_east.tmx");
+        mapPaths.put("Library", libraryMapPath);
+        mapPaths.put("Cafe", cafeMapPath);
+        mapPaths.put("Cinema", cinemaMapPath);
+        mapPaths.put("Home", homeMapPath);
+        mapPaths.put("Computer Science Building", compSciMapPath);
+        mapPaths.put("Campus", defaultMapPath);
 
     }
 
@@ -206,8 +213,8 @@ public class MapManager {
         if (tiledMap!= null) {
             tiledMap.dispose();
         }
-        currentMapPath = "maps/end_game.tmx";
-        tiledMap = new TmxMapLoader().load("maps/end_game.tmx");
+        currentMapPath = endGameMapPath;
+        tiledMap = new TmxMapLoader().load(endGameMapPath);
         mapRenderer.setMap(tiledMap);
         collidableTiles.clear();
 

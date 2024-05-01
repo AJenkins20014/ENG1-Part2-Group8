@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
+import com.eng1.heslingtonhustle.map.MapManager;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ import static com.eng1.heslingtonhustle.Game.SCALE;
 public class BuildingManager {
 
     private final List<Building> campusBuildings;
+    public static final String buildingInfo = "../assets/buildings.json";
 
     /**
      * Constructs a new BuildingManager and loads building information from a JSON file.
@@ -43,7 +45,7 @@ public class BuildingManager {
     private static Map<String, Building> loadBuildingInfo() {
         Gson gson = new Gson();
         Map<String, Building> buildingMap = new HashMap<>();
-        FileHandle fileHandle = Gdx.files.internal("buildings.json");
+        FileHandle fileHandle = Gdx.files.internal(buildingInfo);
 
         try (InputStream inputStream = fileHandle.read();
              InputStreamReader reader = new InputStreamReader(inputStream)) {
@@ -64,7 +66,7 @@ public class BuildingManager {
      */
     private List<Building> createBuildings(Map<String, Building> buildingMap) {
         List<Building> buildings = new ArrayList<>();
-        TiledMap map = new TmxMapLoader().load("maps/campus_east.tmx");
+        TiledMap map = new TmxMapLoader().load(MapManager.defaultMapPath);
         for (MapObject buildingCorner : (map.getLayers().get("buildingCorners").getObjects())) {
             String id = (String) buildingCorner.getProperties().get("name");
             if (buildingMap.containsKey(id)) {

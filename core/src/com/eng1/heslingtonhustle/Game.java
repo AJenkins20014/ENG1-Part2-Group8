@@ -29,13 +29,13 @@ public class Game extends ApplicationAdapter {
     public static final int SCALE = 5;
     public static final int PLAYER_SIZE = 32 * SCALE;
     private List<Building> buildings = new ArrayList<>();
-    private PlayerManager playerManager;
-    private Stage stage;
-    private RenderingManager renderingManager;
-    private CameraManager cameraManager;
-    private GameManager gameManager;
+    public PlayerManager playerManager;
+    public Stage stage;
+    public RenderingManager renderingManager;
+    public CameraManager cameraManager;
+    public GameManager gameManager;
     
-    public static final String bgMusic = "bgtrack.mp3";
+    public static final String bgMusic = "../assets/bgtrack.mp3";
 
     /**
      * Initialises the game.

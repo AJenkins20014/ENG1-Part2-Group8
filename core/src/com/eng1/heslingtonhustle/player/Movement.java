@@ -25,7 +25,7 @@ public class Movement {
     private Animation<TextureRegion> currentAnimation;
     private TextureRegion currentFrame;
     private Array<Rectangle> collidableTiles;
-    private boolean movementEnabled = true;
+    public boolean movementEnabled = true;
 
     /**
      * Constructs a Movement instance with the specified player position and speed.

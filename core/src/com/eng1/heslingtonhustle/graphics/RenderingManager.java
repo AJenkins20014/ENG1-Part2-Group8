@@ -30,6 +30,9 @@ public class RenderingManager {
     private final Stage uiStage;
     private final GameUI gameUI;
     private boolean playerVisible = true;
+    
+    public static final String vertexShaderPath = "../assets/shader/vertexShader.glsl";
+    public static final String fragmentShaderPath = "../assets/shader/fragmentShader.glsl";
 
     /**
      * Constructs a new RenderingManager with the given camera, map manager, and player manager.
@@ -56,8 +59,8 @@ public class RenderingManager {
      */
     private boolean shaderSetup() {
         try {
-            String vertexShader = Gdx.files.internal("shader/vertexShader.glsl").readString();
-            String fragmentShader = Gdx.files.internal("shader/fragmentShader.glsl").readString();
+            String vertexShader = Gdx.files.internal(vertexShaderPath).readString();
+            String fragmentShader = Gdx.files.internal(fragmentShaderPath).readString();
             shader = new ShaderProgram(vertexShader, fragmentShader);
 
             if (!shader.isCompiled()) {
