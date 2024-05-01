@@ -1,0 +1,57 @@
+[
+  {
+    "id": "library",
+    "name": "Library",
+    "textureStartX": 720,
+    "textureStartY": 704,
+    "textureWidth": 10,
+    "textureHeight": 7,
+    "activityName": "Study",
+    "energy": 20,
+    "time": 2
+  },
+  {
+    "id": "cinema",
+    "name": "Cinema",
+    "textureStartX": 720,
+    "textureStartY": 912,
+    "textureWidth": 6,
+    "textureHeight": 6,
+    "activityName": "Relax",
+    "energy": 0,
+    "time": 2
+  },
+  {
+    "id": "home",
+    "name": "Home",
+    "textureStartX": 720,
+    "textureStartY": 512,
+    "textureWidth": 10,
+    "textureHeight": 8,
+    "activityName": "Sleep",
+    "energy": 0,
+    "time": 0
+  },
+  {
+    "id": "compSci",
+    "name": "Computer Science Building",
+    "textureStartX": 720,
+    "textureStartY": 176,
+    "textureWidth": 12,
+    "textureHeight": 7,
+    "activityName": "Study",
+    "energy": 20,
+    "time": 2
+  },
+  {
+    "id": "cafe",
+    "name": "Cafe",
+    "textureStartX": 720,
+    "textureStartY": 416,
+    "textureWidth": 6,
+    "textureHeight": 6,
+    "activityName": "Eat",
+    "energy": 10,
+    "time": 1
+  }
+]

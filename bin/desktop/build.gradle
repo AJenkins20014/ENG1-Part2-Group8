@@ -1,0 +1,50 @@
+sourceCompatibility = 1.8
+sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.resources.srcDirs = ["../assets"]
+
+project.ext.mainClassName = "com.eng1.heslingtonhustle.DesktopLauncher"
+project.ext.assetsDir = new File("../assets")
+
+import org.gradle.internal.os.OperatingSystem
+
+tasks.register('dist', Jar) {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    manifest {
+        attributes 'Main-Class': project.ext.mainClassName
+    }
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
+}
+
+tasks.register('run', JavaExec) {
+    dependsOn classes
+    mainClass = project.ext.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.ext.assetsDir
+    ignoreExitValue = true
+
+    if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
+        // Required to run on macOS
+        jvmArgs += "-XstartOnFirstThread"
+    }
+}
+
+tasks.register('debug', JavaExec) {
+    dependsOn classes
+    mainClass = project.ext.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.ext.assetsDir
+    ignoreExitValue = true
+    debug = true
+}
+
+
+
+dist.dependsOn classes
+
+eclipse.project.name = appName + "-desktop"

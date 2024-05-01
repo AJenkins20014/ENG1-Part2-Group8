@@ -54,12 +54,37 @@ project(":core") {
 
 project(":test") {
     apply plugin: "java"
+    apply plugin: "jacoco"
 
     sourceSets.test.java.srcDirs = ["src/"]
 
     dependencies {
-        implementation project(":desktop")
         implementation project(":core")
-        testImplementation "junit:junit:4.13.2" // Update JUnit version
+
+        implementation "junit:junit:4.+"
+        implementation 'org.mockito:mockito-core:5.11.0'
+
+        implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+
+        testImplementation 'junit:junit:4.+'
+        implementation 'org.mockito:mockito-core:5.11.0'
+
+        testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+        testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    }
+
+    jacocoTestReport {
+        dependsOn test
+        sourceSets project(':core').sourceSets.main
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: ['**/*Tests.*', '**/GdxTestRunner.*'])
+            }))
+        }
+    }
+    test {
+        finalizedBy jacocoTestReport
     }
 }
