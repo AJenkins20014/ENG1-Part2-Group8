@@ -34,7 +34,8 @@ public class Game extends ApplicationAdapter {
     private RenderingManager renderingManager;
     private CameraManager cameraManager;
     private GameManager gameManager;
-
+    
+    public static final String bgMusic = "bgtrack.mp3";
 
     /**
      * Initialises the game.
@@ -42,7 +43,7 @@ public class Game extends ApplicationAdapter {
     @Override
     public void create() {
     	// Import and play background music
-    	Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("bgtrack.mp3"));
+    	Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(bgMusic));
         backgroundMusic.play();
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(.5f);
