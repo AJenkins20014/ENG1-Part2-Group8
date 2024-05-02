@@ -18,7 +18,7 @@ import com.eng1.heslingtonhustle.helper.ResourceLoader;
 import com.eng1.heslingtonhustle.map.MapManager;
 
 @RunWith(GdxTestRunner.class)
-public class AssetTests {
+public class AssetTest {
 	
 	/**
      * Verifies the existence of music assets.

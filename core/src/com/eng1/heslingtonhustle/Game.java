@@ -11,6 +11,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.eng1.heslingtonhustle.building.Building;
@@ -28,7 +30,7 @@ public class Game extends ApplicationAdapter {
 
     public static final int SCALE = 5;
     public static final int PLAYER_SIZE = 32 * SCALE;
-    private List<Building> buildings = new ArrayList<>();
+    public List<Building> buildings = new ArrayList<>();
     public PlayerManager playerManager;
     public Stage stage;
     public RenderingManager renderingManager;
@@ -67,6 +69,35 @@ public class Game extends ApplicationAdapter {
         // Initialise buildings
         buildings = buildingManager.getCampusBuildings();
         renderingManager = new RenderingManager(cameraManager, mapManager, playerManager);
+        gameManager = new GameManager(stage, mapManager, playerManager, buildingManager, renderingManager);
+    }
+    
+    /**
+     * Initialises the game with a mocked OrthogonalTiledMapRenderer, Stage and SpriteBatch for testing.
+     * @param mapRendererMock The mocked OrthogonalTiledMapRenderer
+     * @param stageMock The mocked Stage
+     * @param spriteBatchMock The mocked SpriteBatch
+     */
+    public void testCreate(OrthogonalTiledMapRenderer mapRendererMock, Stage stageMock, SpriteBatch spriteBatchMock) {
+        // Create manager objects
+        cameraManager = new CameraManager();
+        MapManager mapManager = new MapManager(mapRendererMock);
+        BuildingManager buildingManager = new BuildingManager();
+        stage = stageMock;
+
+        // Set spawn location and spawn player
+        Vector2 spawn = new Vector2(4608, 960);
+        playerManager = new PlayerManager(spawn, 320*2);
+       
+        // Set tile collision fields
+        playerManager.getMovement().setCollidableTiles(mapManager.getCollidableTiles());
+
+        // Initialise input system
+        inputSetup();
+
+        // Initialise buildings
+        buildings = buildingManager.getCampusBuildings();
+        renderingManager = new RenderingManager(cameraManager, mapManager, playerManager, spriteBatchMock);
         gameManager = new GameManager(stage, mapManager, playerManager, buildingManager, renderingManager);
     }
 

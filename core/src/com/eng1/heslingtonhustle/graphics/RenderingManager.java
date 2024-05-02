@@ -52,6 +52,21 @@ public class RenderingManager {
             Gdx.app.error("RenderingManager", "Error initializing shaders. Rendering may be affected.");
         }
     }
+    
+    /**
+     * Constucts a new RenderingManager with a mocked sprite batch for testing.
+     * @param cameraManager The CameraManager instance
+     * @param mapManager The MapManager instance
+     * @param playerManager The PlayerManager instance
+     * @param spriteBatchMock The mocked sprite batch
+     */
+    public RenderingManager(CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager, SpriteBatch spriteBatchMock) {
+        this.batch = spriteBatchMock;
+        this.cameraManager = cameraManager;
+        this.mapManager = mapManager;
+        this.uiStage = new Stage(new ScreenViewport(), batch);
+        this.gameUI = new GameUI(uiStage, playerManager);
+    }
 
     /**
      * Sets up the shader program for special effects.

@@ -28,8 +28,8 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class GameManager {
     private final Stage stage;
-    private final MapManager mapManager;
-    private final PlayerManager playerManager;
+    public final MapManager mapManager;
+    public final PlayerManager playerManager;
     private final BuildingManager buildingManager;
     private final RenderingManager renderingManager;
     private Vector2 respawnLocation;
@@ -75,7 +75,7 @@ public class GameManager {
      * Interacts with the specified building if the player is in the INTERACTING state.
      * @param building The building to interact with
      */
-    private void interactWithBuilding(Building building) {
+    public void interactWithBuilding(Building building) {
         if (playerManager.getState().isINTERACTING()) {
             playerManager.getState().stopInteracting();
             enterBuilding(building);

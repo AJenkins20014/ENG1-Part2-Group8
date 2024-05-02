@@ -1,8 +1,6 @@
 /**
  * This class contains unit tests for the player input handling and movement logic.
  * It tests the behavior of the InputHandler and Movement classes under various scenarios.
- * The tests are run using a custom test runner, GdxTestRunner, to facilitate testing
- * of LibGDX-dependent code.
  */
 package com.eng1.heslingtonhustle;
 
@@ -48,33 +46,33 @@ public class InputTest {
         
         // Up
         inputHandler.keyDown(Input.Keys.W);
-        assertTrue(movement.getPlayerState().UP);
+        assertTrue("Player state is set to UP upon W key down", movement.getPlayerState().UP);
         inputHandler.keyUp(Input.Keys.W);
-        assertFalse(movement.getPlayerState().UP);
+        assertFalse("Player state is set to UP upon W key up", movement.getPlayerState().UP);
         
         // Down
         inputHandler.keyDown(Input.Keys.S);
-        assertTrue(movement.getPlayerState().DOWN);
+        assertTrue("Player state is set to DOWN upon S key down", movement.getPlayerState().DOWN);
         inputHandler.keyUp(Input.Keys.S);
-        assertFalse(movement.getPlayerState().DOWN);
+        assertFalse("Player state is set to DOWN upon S key up", movement.getPlayerState().DOWN);
         
         // Left
         inputHandler.keyDown(Input.Keys.A);
-        assertTrue(movement.getPlayerState().LEFT);
+        assertTrue("Player state is set to LEFT upon A key down", movement.getPlayerState().LEFT);
         inputHandler.keyUp(Input.Keys.A);
-        assertFalse(movement.getPlayerState().LEFT);
+        assertFalse("Player state is set to LEFT upon A key up", movement.getPlayerState().LEFT);
         
         // Right
         inputHandler.keyDown(Input.Keys.D);
-        assertTrue(movement.getPlayerState().RIGHT);
+        assertTrue("Player state is set to RIGHT upon D key down", movement.getPlayerState().RIGHT);
         inputHandler.keyUp(Input.Keys.D);
-        assertFalse(movement.getPlayerState().RIGHT);
+        assertFalse("Player state is set to RIGHT upon D key up", movement.getPlayerState().RIGHT);
         
         // Interact
         inputHandler.keyDown(Input.Keys.E);
-        assertTrue(movement.getPlayerState().isINTERACTING());
+        assertTrue("Player state is set to INTERACTING upon E key down", movement.getPlayerState().isINTERACTING());
         inputHandler.keyUp(Input.Keys.E);
-        assertFalse(movement.getPlayerState().isINTERACTING());
+        assertFalse("Player state is no longer set to INTERACTING upon E key up", movement.getPlayerState().isINTERACTING());
     }
 
     /**
@@ -87,12 +85,12 @@ public class InputTest {
         // Test movement update with no collision
         movement.getPlayerState().moveUp();
         movement.update(0.1f);
-        assertEquals(new Vector2(0, 1), movement.getPosition());
+        assertEquals("Player moves as expected with no collidable tiles in its path", new Vector2(0, 1), movement.getPosition());
         
         // Test movement update with collision
         movement.getPlayerState().moveUp();
         movement.update(0.1f);
-        assertEquals(new Vector2(0, 1), movement.getPosition());
+        assertEquals("Player does not move when hitting a collidable tile", new Vector2(0, 1), movement.getPosition());
     }
     
     /**
@@ -101,9 +99,9 @@ public class InputTest {
     @Test
     public void testMovementToggle() {
         movement.disableMovement();
-        assertFalse(movement.movementEnabled);
+        assertFalse("Movement is disabled as expected", movement.movementEnabled);
         movement.enableMovement();
-        assertTrue(movement.movementEnabled);
+        assertTrue("Movement is enabled as expected", movement.movementEnabled);
     }
     
 }

@@ -5,7 +5,7 @@
 package com.eng1.heslingtonhustle.gameobjects;
 
 public class Time {
-    private int time;
+    public int time;
     private int dayNumber;
 
     private final String[] DAYS = new String[]{"Monday", "Tuesday", "Wednesday","Thursday","Friday","Saturday","Sunday"};

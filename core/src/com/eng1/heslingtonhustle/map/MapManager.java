@@ -26,7 +26,7 @@ public class MapManager {
     private final Array<Rectangle> exitTiles = new Array<>();
     private final Array<ActivityTile> activityTiles = new Array<>();
     
-    private String currentMapPath = "maps/campus_east.tmx";
+    public String currentMapPath = "maps/campus_east.tmx";
     public static final String defaultMapPath = "../assets/maps/campus_east.tmx";
     public static final String cafeMapPath = "../assets/maps/cafe.tmx";
     public static final String cinemaMapPath = "../assets/maps/cinema.tmx";
@@ -57,6 +57,23 @@ public class MapManager {
     }
 
     /**
+     * Constructs a new MapManager instance with a mock OrthogonalTiledMapRenderer for unit testing.
+     */
+    public MapManager(OrthogonalTiledMapRenderer mapRendererMock) {
+    	tiledMap = new TmxMapLoader().load(defaultMapPath);
+        mapRenderer = mapRendererMock;
+        parseCollidableTiles();
+
+        mapPaths = new HashMap<>();
+        mapPaths.put("Library", libraryMapPath);
+        mapPaths.put("Cafe", cafeMapPath);
+        mapPaths.put("Cinema", cinemaMapPath);
+        mapPaths.put("Home", homeMapPath);
+        mapPaths.put("Computer Science Building", compSciMapPath);
+        mapPaths.put("Campus", defaultMapPath);
+	}
+
+	/**
      * Parses the tiles from the given MapObjects and adds them to the provided Array.
      * @param objects The MapObjects to parse.
      * @param tiles The Array to add the parsed tiles to.

@@ -16,7 +16,7 @@ public class Movement {
     private static final float PLAYER_HEIGHT = 20;
     private final Vector2 position;
     private final float speed;
-    private final State state;
+    public final State state;
     private final Animation<TextureRegion> downWalkAnimation = ResourceLoader.getDownWalk();
     private final Animation<TextureRegion> upWalkAnimation = ResourceLoader.getUpWalk();
     private final Animation<TextureRegion> leftWalkAnimation = ResourceLoader.getLeftWalk();

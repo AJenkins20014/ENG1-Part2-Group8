@@ -4,7 +4,7 @@
 package com.eng1.heslingtonhustle.gameobjects;
 
 public class Energy {
-    private int energy = 100;
+    public int energy = 100;
 
     /**
      * Constructs a new Energy instance with the initial energy level set to 100.
