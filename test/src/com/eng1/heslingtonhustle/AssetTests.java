@@ -1,10 +1,10 @@
-package com.eng1.heslingtonhustle;
-
 /**
  * This class contains unit tests to verify the existence of various assets used in the game.
  * These assets include background music, building information files, maps, UI elements, shaders, and resource textures.
  * Each test method checks whether the respective asset file exists.
  */
+package com.eng1.heslingtonhustle;
+
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;

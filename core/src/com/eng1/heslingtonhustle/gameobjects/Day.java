@@ -5,9 +5,9 @@
 package com.eng1.heslingtonhustle.gameobjects;
 
 public class Day {
-    private int studySessions;
-    private int eaten;
-    private int relaxed;
+    public int studySessions;
+    public int eaten;
+    public int relaxed;
 
     /**
      * Constructs a new Day instance with default values.

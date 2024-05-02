@@ -14,10 +14,10 @@ import java.util.List;
 public class PlayerManager {
     public final Movement movement;
     public final Time time = new Time();
-    private final Energy energy = new Energy();
+    public final Energy energy = new Energy();
     private final List<Day> week = new ArrayList<>();
 
-    private Day currentDay;
+    public Day currentDay;
 
     /**
      * Constructs a PlayerManager with the specified position and speed.

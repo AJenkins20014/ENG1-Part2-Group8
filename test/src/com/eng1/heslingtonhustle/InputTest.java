@@ -69,10 +69,16 @@ public class InputTest {
         assertTrue(movement.getPlayerState().RIGHT);
         inputHandler.keyUp(Input.Keys.D);
         assertFalse(movement.getPlayerState().RIGHT);
+        
+        // Interact
+        inputHandler.keyDown(Input.Keys.E);
+        assertTrue(movement.getPlayerState().isINTERACTING());
+        inputHandler.keyUp(Input.Keys.E);
+        assertFalse(movement.getPlayerState().isINTERACTING());
     }
 
     /**
-     * Tests the movement update logic with and without collision:
+     * Tests the movement update logic with and without collision.
      */
     @Test
     public void testMovementUpdate() {
@@ -99,4 +105,5 @@ public class InputTest {
         movement.enableMovement();
         assertTrue(movement.movementEnabled);
     }
+    
 }
