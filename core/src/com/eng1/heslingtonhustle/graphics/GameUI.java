@@ -22,7 +22,7 @@ public class GameUI {
     private final Stage uiStage;
     private final Texture xpBackground;
     private final Texture xpFill;
-    private final ProgressBar progressBar;
+    public final ProgressBar progressBar;
     private Label timeLabel;
     private Label dayLabel;
     private final PlayerManager playerManager;

@@ -7,8 +7,8 @@ package com.eng1.heslingtonhustle.activities;
 import com.eng1.heslingtonhustle.player.PlayerManager;
 
 public abstract class Activity {
-    protected int durationHours;
-    protected int energyUsagePercent;
+    public int durationHours;
+    public int energyUsagePercent;
     protected String name;
 
     /**
