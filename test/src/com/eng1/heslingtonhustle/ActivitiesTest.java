@@ -13,7 +13,7 @@ import com.eng1.heslingtonhustle.activities.Study;
 public class ActivitiesTest {
 
     /**
-     * Tests the behavior and properties of the Eat activity.
+     * Tests the behaviour and properties of the Eat activity.
      */
     @Test
     public void testEatActivity() {
@@ -25,7 +25,7 @@ public class ActivitiesTest {
     }
 
     /**
-     * Tests the behavior and properties of the Relax activity.
+     * Tests the behaviour and properties of the Relax activity.
      */
     @Test
     public void testRelaxActivity() {
@@ -37,7 +37,7 @@ public class ActivitiesTest {
     }
 
     /**
-     * Tests the behavior and properties of the Sleep activity.
+     * Tests the behaviour and properties of the Sleep activity.
      */
     @Test
     public void testSleepActivity() {
@@ -49,7 +49,7 @@ public class ActivitiesTest {
     }
 
     /**
-     * Tests the behavior and properties of the Study activity.
+     * Tests the behaviour and properties of the Study activity.
      */
     @Test
     public void testStudyActivity() {

@@ -16,7 +16,7 @@ import com.eng1.heslingtonhustle.building.BuildingInfo;
 public class BuildingTest {
 
     /**
-     * Tests the initialization of a Building with specified attributes and verifies
+     * Tests the initialisation of a Building with specified attributes and verifies
      * the correct setup of its associated activity.
      */
     @Test

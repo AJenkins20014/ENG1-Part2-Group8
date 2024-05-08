@@ -16,7 +16,7 @@ import com.eng1.heslingtonhustle.graphics.CameraManager;
 public class GraphicsTest {
 
     /**
-     * Tests the CameraManager for correct camera initialization and viewport settings.
+     * Tests the CameraManager for correct camera initialisation and viewport settings.
      */
     @Test
     public void testCameraManager() {
@@ -29,7 +29,7 @@ public class GraphicsTest {
     }
 
     /**
-     * Tests the GameUI for the initialization and existence of its components.
+     * Tests the GameUI for the initialisation and existence of its components.
      */
     @Test
     public void testGameUI() {
