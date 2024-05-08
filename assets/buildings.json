@@ -51,7 +51,7 @@
     "textureWidth": 6,
     "textureHeight": 6,
     "activityName": "Eat",
-    "energy": 10,
+    "energy": 0,
     "time": 1
   }
 ]

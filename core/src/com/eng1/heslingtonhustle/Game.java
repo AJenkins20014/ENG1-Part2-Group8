@@ -36,6 +36,7 @@ public class Game extends ApplicationAdapter {
     public RenderingManager renderingManager;
     public CameraManager cameraManager;
     public GameManager gameManager;
+    public MapManager mapManager;
     
     public static final String bgMusic = "../assets/bgtrack.mp3";
 
@@ -52,13 +53,13 @@ public class Game extends ApplicationAdapter {
        
         // Create manager objects
         cameraManager = new CameraManager();
-        MapManager mapManager = new MapManager();
+        mapManager = new MapManager();
         BuildingManager buildingManager = new BuildingManager();
         stage = new Stage(cameraManager.getViewport());
 
         // Set spawn location and spawn player
         Vector2 spawn = new Vector2(4608, 960);
-        playerManager = new PlayerManager(spawn, 320*2);
+        playerManager = new PlayerManager(spawn, 320*2, this);
        
         // Set tile collision fields
         playerManager.getMovement().setCollidableTiles(mapManager.getCollidableTiles());
@@ -87,7 +88,7 @@ public class Game extends ApplicationAdapter {
 
         // Set spawn location and spawn player
         Vector2 spawn = new Vector2(4608, 960);
-        playerManager = new PlayerManager(spawn, 320*2);
+        playerManager = new PlayerManager(spawn, 320*2, this);
        
         // Set tile collision fields
         playerManager.getMovement().setCollidableTiles(mapManager.getCollidableTiles());

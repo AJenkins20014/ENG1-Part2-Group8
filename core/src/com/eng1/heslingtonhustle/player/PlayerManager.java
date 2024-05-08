@@ -4,6 +4,7 @@
 package com.eng1.heslingtonhustle.player;
 
 import com.badlogic.gdx.math.Vector2;
+import com.eng1.heslingtonhustle.Game;
 import com.eng1.heslingtonhustle.gameobjects.Day;
 import com.eng1.heslingtonhustle.gameobjects.Energy;
 import com.eng1.heslingtonhustle.gameobjects.Time;
@@ -18,15 +19,16 @@ public class PlayerManager {
     private final List<Day> week = new ArrayList<>();
 
     public Day currentDay;
+    private Game game;
 
     /**
      * Constructs a PlayerManager with the specified position and speed.
      * @param position The initial position of the player.
      * @param speed The speed of the player's movement.
      */
-    public PlayerManager(Vector2 position, float speed) {
+    public PlayerManager(Vector2 position, float speed, Game game) {
         movement = new Movement(position, speed);
-
+        this.game = game;
     }
 
     /**
@@ -66,6 +68,9 @@ public class PlayerManager {
      */
     public void study() {
         currentDay.studied();
+        if(!currentDay.placesStudied.contains(game.mapManager.currentMapPath)) {
+        	currentDay.placesStudied.add(game.mapManager.currentMapPath);
+        }
     }
     
     /**
@@ -80,6 +85,9 @@ public class PlayerManager {
      */
     public void relax() {
         currentDay.relaxed();
+        if(!currentDay.placesRelaxed.contains(game.mapManager.currentMapPath)) {
+        	currentDay.placesRelaxed.add(game.mapManager.currentMapPath);
+        }
     }
 
     /**

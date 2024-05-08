@@ -151,7 +151,13 @@ public class GameUI {
             index++;
         }
 
-        Label scoreLabel = new Label("Final Score: " + score, skin);
+        String grade = "First!";
+        if(score < 70f) grade = "2:1";
+        if(score < 60f) grade = "2:2";
+        if(score < 50f) grade = "3";
+        if(score < 40f) grade = "Fail!";
+        
+        Label scoreLabel = new Label("Final Score: " + score + " - " + grade, skin);
         scoreLabel.setAlignment(Align.center);
 
         scoreTable.row().expandY().bottom();
@@ -189,11 +195,16 @@ public class GameUI {
         int dayRelaxedOnce = 0;
         int dayEatenCount = 0;
         int maxScore = 100;
-        int score;
+        int score = 0;
+        boolean catchup = false;
+
         for (Day day : week) {
             studyCount += day.getStudySessions();
             if (day.getStudySessions() >= 1) {
                 dayStudiedOnce++;
+            }
+            if(day.getStudySessions() > 1) {
+            	catchup = true;
             }
             if (day.getEaten() >= 2) {
                 dayEatenCount++;
@@ -201,15 +212,22 @@ public class GameUI {
             if (day.getRelaxed() > 0) {
                 dayRelaxedOnce++;
             }
+            if (day.placesStudied.size() > 1) {
+            	// Add bonus
+            	score += 5;
+            }
+            if (day.placesRelaxed.size() > 2) {
+            	// Add bonus
+            	score += 5;
+            }
         }
 
         score = studyCount * 10;
         score = Math.min(score, maxScore);
 
         // Apply penalties
-        if (dayStudiedOnce != 7 && (dayStudiedOnce != 6 || studyCount < 7)) {
-            score = dayStudiedOnce*10;
-            score = Math.min(score, 50);
+        if (dayStudiedOnce < 7 && !catchup) {
+            score = Math.min(score, 39);
         }
 
         if (dayEatenCount < 7) {

@@ -4,15 +4,20 @@
  */
 package com.eng1.heslingtonhustle.gameobjects;
 
+import java.util.ArrayList;
+
 public class Day {
     public int studySessions;
     public int eaten;
     public int relaxed;
-
+    public ArrayList<String> placesStudied = new ArrayList<String>();
+    public ArrayList<String> placesRelaxed = new ArrayList<String>();
+    
     /**
      * Constructs a new Day instance with default values.
      */
     public Day() {
+
     }
 
     /**
