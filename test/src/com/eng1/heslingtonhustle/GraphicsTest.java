@@ -10,8 +10,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.eng1.heslingtonhustle.graphics.CameraManager;
 
+/**
+ * Tests the graphical components of the game including camera settings and game UI elements.
+ */
 public class GraphicsTest {
 
+    /**
+     * Tests the CameraManager for correct camera initialization and viewport settings.
+     */
     @Test
     public void testCameraManager() {
         CameraManager cameraManager = new CameraManager();
@@ -20,20 +26,19 @@ public class GraphicsTest {
         // Verify initial camera setup
         assertEquals(1440, camera.viewportWidth, 0.001);
         assertEquals(810, camera.viewportHeight, 0.001);
-        
-        // Normally, we would test dynamic camera changes here, but this is outside the scope without mocks
     }
 
+    /**
+     * Tests the GameUI for the initialization and existence of its components.
+     */
     @Test
     public void testGameUI() {
-        Stage stage = new Stage();  // Directly using the Stage without mocking
-        PlayerManager playerManager = new PlayerManager(null, 0);  // Directly using PlayerManager without mocks
+        Stage stage = new Stage();
+        PlayerManager playerManager = new PlayerManager(null, 0);
 
         GameUI gameUI = new GameUI(stage, playerManager);
 
         // Since we cannot simulate full UI interactions, we only verify the initial state of components
-        assertNotNull(gameUI.progressBar);  // Verify that the progress bar is initialized
-        
-        // The interaction message can't be shown or hidden without the full UI lifecycle, which is outside unit test scope
+        assertNotNull(gameUI.progressBar);
     }
 }

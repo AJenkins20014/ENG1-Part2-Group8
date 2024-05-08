@@ -10,8 +10,15 @@ import com.eng1.heslingtonhustle.activities.*;
 import com.eng1.heslingtonhustle.building.Building;
 import com.eng1.heslingtonhustle.building.BuildingInfo;
 
+/**
+ * Tests for various functionalities of the Building class.
+ */
 public class BuildingTest {
 
+    /**
+     * Tests the initialization of a Building with specified attributes and verifies
+     * the correct setup of its associated activity.
+     */
     @Test
     public void testBuildingInitialization() {
         // Simulate TextureRegion without mocks
@@ -30,12 +37,16 @@ public class BuildingTest {
         Building building = new Building(info);
         
         assertEquals("Library", building.getName());
-        assertNotNull(building.getTextureRegion()); // We can't compare textureRegion as it's created internally
+        assertNotNull(building.getTextureRegion());
         assertTrue(building.getActivity() instanceof Study);
         assertEquals(10, building.getActivity().energyUsagePercent);
         assertEquals(2, building.getActivity().durationHours);
     }
 
+    /**
+     * Tests the inRange method of the Building class to check if a given point
+     * falls within the operational range of the building.
+     */
     @Test
     public void testInRange() {
         BuildingInfo info = new BuildingInfo();
@@ -52,10 +63,14 @@ public class BuildingTest {
         building.setPosition(new Vector2(100, 100));
 
         // Simulate checking range without mocking
-        assertTrue(building.inRange(new Vector2(150, 95))); // Assume interaction range and check accordingly
-        assertFalse(building.inRange(new Vector2(10, 10))); // Clearly out of range
+        assertTrue(building.inRange(new Vector2(150, 95)));
+        assertFalse(building.inRange(new Vector2(10, 10)));
     }
 
+    /**
+     * Tests the visibility of a building, ensuring that visibility can be
+     * correctly toggled and retrieved.
+     */
     @Test
     public void testVisibility() {
         BuildingInfo info = new BuildingInfo();
@@ -82,6 +97,10 @@ public class BuildingTest {
         assertTrue(building.isVisible());
     }
 
+    /**
+     * Tests the retrieval of an activity from a building, verifying that the correct
+     * activity type is returned and its properties are as expected.
+     */
     @Test
     public void testGetActivity() {
         BuildingInfo info = new BuildingInfo();

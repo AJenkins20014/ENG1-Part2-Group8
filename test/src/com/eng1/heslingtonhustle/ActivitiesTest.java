@@ -7,8 +7,14 @@ import com.eng1.heslingtonhustle.activities.Relax;
 import com.eng1.heslingtonhustle.activities.Sleep;
 import com.eng1.heslingtonhustle.activities.Study;
 
+/**
+ * Tests the functionality of various player activities such as eating, relaxing, sleeping, and studying.
+ */
 public class ActivitiesTest {
 
+    /**
+     * Tests the behavior and properties of the Eat activity.
+     */
     @Test
     public void testEatActivity() {
         Eat eatActivity = new Eat(1, 10);
@@ -18,6 +24,9 @@ public class ActivitiesTest {
         assertEquals(expectedDescription, eatActivity.toString());
     }
 
+    /**
+     * Tests the behavior and properties of the Relax activity.
+     */
     @Test
     public void testRelaxActivity() {
         Relax relaxActivity = new Relax(2, 5);
@@ -27,6 +36,9 @@ public class ActivitiesTest {
         assertEquals(expectedDescription, relaxActivity.toString());
     }
 
+    /**
+     * Tests the behavior and properties of the Sleep activity.
+     */
     @Test
     public void testSleepActivity() {
         Sleep sleepActivity = new Sleep(8, 15);
@@ -36,6 +48,9 @@ public class ActivitiesTest {
         assertEquals(expectedDescription, sleepActivity.toString());
     }
 
+    /**
+     * Tests the behavior and properties of the Study activity.
+     */
     @Test
     public void testStudyActivity() {
         Study studyActivity = new Study(3, 20);

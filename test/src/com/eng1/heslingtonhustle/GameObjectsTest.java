@@ -7,8 +7,14 @@ import com.eng1.heslingtonhustle.gameobjects.Day;
 import com.eng1.heslingtonhustle.gameobjects.Energy;
 import com.eng1.heslingtonhustle.gameobjects.Time;
 
+/**
+ * Tests the functionality and integrity of the game objects: Day, Energy, and Time.
+ */
 public class GameObjectsTest {
 
+    /**
+     * Tests the Day class for its functionality of tracking study sessions, meals, and relaxation activities.
+     */
     @Test
     public void testDayClass() {
         Day day = new Day();
@@ -29,6 +35,9 @@ public class GameObjectsTest {
         assertEquals(1, day.getRelaxed());
     }
 
+    /**
+     * Tests the Energy class for managing energy levels through usage and reset operations.
+     */
     @Test
     public void testEnergyClass() {
         Energy energy = new Energy();
@@ -43,13 +52,16 @@ public class GameObjectsTest {
         // Trying to use more energy than available
         assertFalse(energy.canUseEnergy(85));
         energy.useEnergy(85);
-        assertEquals(80, energy.getEnergyLevel()); // Should not change
+        assertEquals(80, energy.getEnergyLevel());
 
         // Resetting energy
         energy.reset();
         assertEquals(100, energy.getEnergyLevel());
     }
 
+    /**
+     * Tests the Time class for managing time and day transitions within the game.
+     */
     @Test
     public void testTimeClass() {
         Time time = new Time();
@@ -64,20 +76,20 @@ public class GameObjectsTest {
 
         // Increase time beyond the limit of a day
         assertFalse(time.canIncreaseTime(15));
-        time.increaseTime(15); // This should not increase time beyond 24 hours
-        assertEquals(13, time.getTime()); // Time does not exceed 24 hours limit
+        time.increaseTime(15); 
+        assertEquals(13, time.getTime());
 
         // Moving to the next day
         time.nextDay();
         assertEquals("Tuesday", time.getDay());
-        assertEquals(8, time.getTime()); // Resets to 8:00
+        assertEquals(8, time.getTime());
 
         // Testing week completion
         for (int i = 0; i < 5; i++) {
-            time.nextDay(); // Move through Wednesday, Thursday, Friday, Saturday, Sunday
+            time.nextDay();
         }
         assertEquals("Sunday", time.getDay());
-        time.nextDay(); // Should indicate week over
+        time.nextDay();
         assertNull(time.getDay());
     }
 }
