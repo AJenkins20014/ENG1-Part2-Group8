@@ -45,6 +45,7 @@ public class Time {
      * @param activityLength The length of the activity to be performed
      */
     public void increaseTime(int activityLength) {
+    	if(!canIncreaseTime(activityLength)) return;
         this.time += activityLength;
     }
 

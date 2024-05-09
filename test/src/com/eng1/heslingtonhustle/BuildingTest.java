@@ -63,7 +63,7 @@ public class BuildingTest {
         building.setPosition(new Vector2(100, 100));
 
         // Simulate checking range without mocking
-        assertTrue(building.inRange(new Vector2(150, 95)));
+        assertTrue(building.inRange(new Vector2(180, -60)));
         assertFalse(building.inRange(new Vector2(10, 10)));
     }
 

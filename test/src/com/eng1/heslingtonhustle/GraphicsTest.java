@@ -1,13 +1,15 @@
 package com.eng1.heslingtonhustle;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+
 import org.junit.Test;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.eng1.heslingtonhustle.graphics.GameUI;
-import com.eng1.heslingtonhustle.player.PlayerManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.eng1.heslingtonhustle.graphics.CameraManager;
 
 /**
@@ -33,10 +35,16 @@ public class GraphicsTest {
      */
     @Test
     public void testGameUI() {
-        Stage stage = new Stage();
-        PlayerManager playerManager = new PlayerManager(null, 0);
+    	// Mock required classes
+    	OrthogonalTiledMapRenderer mapRendererMock = mock(OrthogonalTiledMapRenderer.class);
+        Stage stageMock = mock(Stage.class);
+        SpriteBatch spriteBatchMock = mock(SpriteBatch.class);
+        
+        // Initialise new game with mocked classes
+        Game game = new Game();
+        game.testCreate(mapRendererMock, stageMock, spriteBatchMock);
 
-        GameUI gameUI = new GameUI(stage, playerManager);
+        GameUI gameUI = new GameUI(game.stage, game.playerManager);
 
         // Since we cannot simulate full UI interactions, we only verify the initial state of components
         assertNotNull(gameUI.progressBar);
