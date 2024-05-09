@@ -8,12 +8,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.eng1.heslingtonhustle.gameobjects.Day;
 import com.eng1.heslingtonhustle.player.PlayerManager;
 
@@ -21,13 +25,22 @@ import com.eng1.heslingtonhustle.player.PlayerManager;
 public class PlayerTest {
 	
 	private PlayerManager playerManager;
+	private Game game;
 	
 	/**
      * Sets up the test environment before each test case.
      */
 	@Before
 	public void setUp() {
-		playerManager = new PlayerManager(new Vector2(0, 0), 0);
+		// Mock required classes
+    	OrthogonalTiledMapRenderer mapRendererMock = mock(OrthogonalTiledMapRenderer.class);
+        Stage stageMock = mock(Stage.class);
+        SpriteBatch spriteBatchMock = mock(SpriteBatch.class);
+        
+        // Initialise new game with mocked classes
+        game = new Game();
+        game.testCreate(mapRendererMock, stageMock, spriteBatchMock);
+		playerManager = new PlayerManager(new Vector2(0, 0), 0, game);
 	}
 	
 	/**
@@ -77,7 +90,7 @@ public class PlayerTest {
      */
 	@Test
 	public void testGameOver() {
-		playerManager = new PlayerManager(new Vector2(0, 0), 0);
+		playerManager = new PlayerManager(new Vector2(0, 0), 0, game);
 		assertFalse("Game is not over upon initialisation", playerManager.gameOver());
 		for(int i = 0; i < 6; i++) {
 			playerManager.sleep();

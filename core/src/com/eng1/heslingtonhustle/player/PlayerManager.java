@@ -68,6 +68,9 @@ public class PlayerManager {
      */
     public void study() {
         currentDay.studied();
+        if(game.mapManager == null) {
+        	return;
+        }
         if(!currentDay.placesStudied.contains(game.mapManager.currentMapPath)) {
         	currentDay.placesStudied.add(game.mapManager.currentMapPath);
         }
@@ -85,6 +88,9 @@ public class PlayerManager {
      */
     public void relax() {
         currentDay.relaxed();
+        if(game.mapManager == null) {
+        	return;
+        }
         if(!currentDay.placesRelaxed.contains(game.mapManager.currentMapPath)) {
         	currentDay.placesRelaxed.add(game.mapManager.currentMapPath);
         }
