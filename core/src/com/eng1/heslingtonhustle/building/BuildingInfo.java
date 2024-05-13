@@ -7,12 +7,12 @@ package com.eng1.heslingtonhustle.building;
 
 public class BuildingInfo {
     String id;
-    String name;
-    int textureStartX;
-    int textureStartY;
-    int textureWidth;
-    int textureHeight;
-    String activityName;
-    int energy;
-    int time;
+    public String name;
+    public int textureStartX;
+    public int textureStartY;
+    public int textureWidth;
+    public int textureHeight;
+    public String activityName;
+    public int energy;
+    public int time;
 }
