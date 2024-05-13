@@ -9,8 +9,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.eng1.heslingtonhustle.Game;
 import com.eng1.heslingtonhustle.helper.ResourceLoader;
 import com.eng1.heslingtonhustle.building.Building;
 import com.eng1.heslingtonhustle.map.MapManager;
@@ -30,34 +35,54 @@ public class RenderingManager {
     private final Stage uiStage;
     private final GameUI gameUI;
     private boolean playerVisible = true;
-    
+
     public static final String vertexShaderPath = "../assets/shader/vertexShader.glsl";
     public static final String fragmentShaderPath = "../assets/shader/fragmentShader.glsl";
 
     /**
      * Constructs a new RenderingManager with the given camera, map manager, and player manager.
+     *
      * @param cameraManager The CameraManager instance
-     * @param mapManager The MapManager instance
+     * @param mapManager    The MapManager instance
      * @param playerManager The PlayerManager instance
      */
     public RenderingManager(CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager) {
         this.batch = new SpriteBatch();
         this.cameraManager = cameraManager;
         this.mapManager = mapManager;
-        this.uiStage = new Stage(new ScreenViewport(), batch);
+        this.uiStage = new Stage(new FitViewport(1440,810), batch);
         this.gameUI = new GameUI(uiStage, playerManager);
 
 
         if (!shaderSetup()) {
             Gdx.app.error("RenderingManager", "Error initializing shaders. Rendering may be affected.");
         }
+        TextButton pauseButton = new TextButton("PAUSE", Game.menuSkin);
+        pauseButton.setTransform(true);
+        pauseButton.setSize(180, 80);
+        pauseButton.setScale(0.5f);
+        pauseButton.setPosition(10, 760);
+        pauseButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (playerManager.movement.movementEnabled) {
+                    playerManager.movement.disableMovement();
+                    pauseButton.setText("RESUME");
+                } else {
+                    playerManager.movement.enableMovement();
+                    pauseButton.setText("PAUSE");
+                }
+            }
+        });
+        uiStage.addActor(pauseButton);
     }
-    
+
     /**
      * Constucts a new RenderingManager with a mocked sprite batch for testing.
-     * @param cameraManager The CameraManager instance
-     * @param mapManager The MapManager instance
-     * @param playerManager The PlayerManager instance
+     *
+     * @param cameraManager   The CameraManager instance
+     * @param mapManager      The MapManager instance
+     * @param playerManager   The PlayerManager instance
      * @param spriteBatchMock The mocked sprite batch
      */
     public RenderingManager(CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager, SpriteBatch spriteBatchMock) {
@@ -70,6 +95,7 @@ public class RenderingManager {
 
     /**
      * Sets up the shader program for special effects.
+     *
      * @return True if shader setup is successful, false otherwise
      */
     private boolean shaderSetup() {
@@ -95,12 +121,13 @@ public class RenderingManager {
 
     /**
      * Renders the game elements including buildings, player, and UI.
-     * @param buildings The list of buildings to render
+     *
+     * @param buildings     The list of buildings to render
      * @param playerManager The PlayerManager instance
      */
     public void render(List<Building> buildings, PlayerManager playerManager) {
         Movement playerMovement = playerManager.getMovement();
-        cameraManager.render(batch, mapManager,playerMovement.getPosition());
+        cameraManager.render(batch, mapManager, playerMovement.getPosition());
 
 
         batch.begin();
@@ -116,24 +143,25 @@ public class RenderingManager {
         gameUI.updateProgressBar();
         uiStage.act(Gdx.graphics.getDeltaTime());
         uiStage.draw();
-
     }
 
     /**
      * Adjusts the daylight brightness based on the time of day and renders the overlay accordingly.
-     * @param playerManager The PlayerManager instance
+     *
+     * @param playerManager  The PlayerManager instance
      * @param playerMovement The Movement instance of the player
      */
     private void daylight(PlayerManager playerManager, Movement playerMovement) {
         float brightness = calculateBrightness(playerManager.getTime().getTime());
         batch.setColor(1, 1, 1, 1 - brightness);
-        batch.draw(ResourceLoader.getOverlay(), playerMovement.getPosition().x-Gdx.graphics.getWidth()/2f,
-                playerMovement.getPosition().y-Gdx.graphics.getHeight()/2f
-                , Gdx.graphics.getWidth()*2, Gdx.graphics.getHeight()*2);
+        batch.draw(ResourceLoader.getOverlay(), playerMovement.getPosition().x - Gdx.graphics.getWidth(),
+                playerMovement.getPosition().y - Gdx.graphics.getHeight()
+                , Gdx.graphics.getWidth() * 2, Gdx.graphics.getHeight() * 2);
     }
 
     /**
      * Calculates the brightness of the daylight based on the time of day.
+     *
      * @param timeOfDay The current time of day
      * @return The calculated brightness value
      */
@@ -151,8 +179,9 @@ public class RenderingManager {
 
     /**
      * Renders all the buildings on the map.
+     *
      * @param buildings The list of buildings to render
-     * @param player The Movement instance of the player
+     * @param player    The Movement instance of the player
      */
     private void renderBuildings(List<Building> buildings, Movement player) {
 
@@ -168,15 +197,16 @@ public class RenderingManager {
             }
             boolean DEBUG = false;
             if (DEBUG) {
-                Vector2 interactSpot =  building.getInteractSpot();
+                Vector2 interactSpot = building.getInteractSpot();
 
-                batch.draw(ResourceLoader.getDebug(),interactSpot.x,interactSpot.y,32*SCALE,32*SCALE);
+                batch.draw(ResourceLoader.getDebug(), interactSpot.x, interactSpot.y, 32 * SCALE, 32 * SCALE);
             }
         }
     }
 
     /**
      * Renders a single building on the map.
+     *
      * @param building The Building object to render
      */
     private void renderBuilding(Building building) {
@@ -185,6 +215,7 @@ public class RenderingManager {
 
     /**
      * Renders an outline around a building.
+     *
      * @param building The Building object to outline
      */
     public void outlineBuilding(Building building) {
@@ -203,11 +234,12 @@ public class RenderingManager {
 
     /**
      * Renders a texture with optional outline effect.
+     *
      * @param textureRegion The texture region to render
-     * @param position The position to render the texture
-     * @param scaleX The scale factor on the X-axis
-     * @param scaleY The scale factor on the Y-axis
-     * @param outline Whether to render an outline effect
+     * @param position      The position to render the texture
+     * @param scaleX        The scale factor on the X-axis
+     * @param scaleY        The scale factor on the Y-axis
+     * @param outline       Whether to render an outline effect
      */
     private void renderTexture(TextureRegion textureRegion, Vector2 position, float scaleX, float scaleY, boolean outline) {
         float x = position.x;
@@ -225,8 +257,9 @@ public class RenderingManager {
 
     /**
      * Renders a texture at the specified position with the default scale.
+     *
      * @param textureRegion The texture region to render
-     * @param position The position to render the texture
+     * @param position      The position to render the texture
      */
     private void renderTexture(TextureRegion textureRegion, Vector2 position) {
         renderTexture(textureRegion, position, SCALE, SCALE, false);
@@ -234,8 +267,9 @@ public class RenderingManager {
 
     /**
      * Calculates the offset needed to center a texture based on its scale.
+     *
      * @param length The length of the texture region
-     * @param scale The scale factor of the texture
+     * @param scale  The scale factor of the texture
      * @return The offset value
      */
     private float calculateOffset(float length, float scale) {
@@ -244,19 +278,21 @@ public class RenderingManager {
 
     /**
      * Renders the player character on the map.
+     *
      * @param playerMovement The Movement object representing the player
      */
     private void renderPlayer(Movement playerMovement) {
         if (playerVisible) {
             TextureRegion currentFrame = playerMovement.getCurrentFrame();
             Vector2 playerPosition = playerMovement.getPosition();
-            float PLAYER_SIZE = 32*SCALE;
+            float PLAYER_SIZE = 32 * SCALE;
             batch.draw(currentFrame, (playerPosition.x - PLAYER_SIZE / 2f), (playerPosition.y - PLAYER_SIZE / 2f) + 60, PLAYER_SIZE, PLAYER_SIZE);
         }
     }
 
     /**
      * Retrieves the GameUI instance associated with this rendering manager.
+     *
      * @return The GameUI instance
      */
     public GameUI getGameUI() {

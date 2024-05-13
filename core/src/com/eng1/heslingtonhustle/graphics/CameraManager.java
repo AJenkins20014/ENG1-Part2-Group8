@@ -35,6 +35,7 @@ public class CameraManager {
         int PLAYER_SIZE = Game.PLAYER_SIZE;
         camera.position.set(playerPosition.x + (PLAYER_SIZE / 2f),
                 playerPosition.y + (PLAYER_SIZE / 2f), 0);
+        camera.zoom = 1.5f;
         camera.update();
     }
 
