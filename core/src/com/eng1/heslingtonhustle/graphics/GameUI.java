@@ -5,9 +5,11 @@
 package com.eng1.heslingtonhustle.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.eng1.heslingtonhustle.helper.ScoreManager;
@@ -30,14 +32,15 @@ public class GameUI {
     private Table scoreTable;
     private final Skin skin;
     private Label interactLabel;
-    
+
     public static final String xpBackgroundPath = "../assets/skin/craftacular/raw/xp-bg.png";
     public static final String xpFillPath = "../assets/skin/craftacular/raw/xp.png";
     public static final String skinPath = "../assets/skin/craftacular/skin/craftacular-ui.json";
 
     /**
      * Constructs a new GameUI instance with the given Stage and PlayerManager.
-     * @param uiStage The Stage instance for UI elements
+     *
+     * @param uiStage       The Stage instance for UI elements
      * @param playerManager The PlayerManager instance
      */
     public GameUI(Stage uiStage, PlayerManager playerManager) {
@@ -105,8 +108,8 @@ public class GameUI {
      */
     public void updateProgressBar() {
         progressBar.setValue(playerManager.getEnergy().getEnergyLevel());
-        timeLabel.setText("Time: "+time.toString());
-        dayLabel.setText("Day: "+time.getDay());
+        timeLabel.setText("Time: " + time.toString());
+        dayLabel.setText("Day: " + time.getDay());
     }
 
     /**
@@ -125,9 +128,10 @@ public class GameUI {
 
     /**
      * Displays the final score.
+     *
      * @param week The list of Day objects representing the week's activities
      */
-    public void showScore(List<Day> week){
+    public void showScore(List<Day> week) {
         uiStage.clear();
         scoreTable = new Table();
         scoreTable.setFillParent(true);
@@ -165,10 +169,11 @@ public class GameUI {
 
     /**
      * Adds a row of statistics for a specific day to the score table.
-     * @param dayLabel The label representing the day
+     *
+     * @param dayLabel      The label representing the day
      * @param studySessions The number of study sessions for the day
-     * @param eaten The number of times eaten for the day
-     * @param relaxed The number of times relaxed for the day
+     * @param eaten         The number of times eaten for the day
+     * @param relaxed       The number of times relaxed for the day
      */
     private void addDayStatsLabel(String dayLabel, int studySessions, int eaten, int relaxed) {
         scoreTable.row().pad(10);
@@ -180,6 +185,7 @@ public class GameUI {
 
     /**
      * Calculates the score based on the statistics of the week.
+     *
      * @param week The list of Day objects representing the week's statistics
      * @return The calculated score
      */
@@ -208,7 +214,7 @@ public class GameUI {
 
         // Apply penalties
         if (dayStudiedOnce != 7 && (dayStudiedOnce != 6 || studyCount < 7)) {
-            score = dayStudiedOnce*10;
+            score = dayStudiedOnce * 10;
             score = Math.min(score, 50);
         }
 
@@ -226,4 +232,7 @@ public class GameUI {
         return score;
     }
 
+    public Stage getUiStage() {
+        return uiStage;
+    }
 }
