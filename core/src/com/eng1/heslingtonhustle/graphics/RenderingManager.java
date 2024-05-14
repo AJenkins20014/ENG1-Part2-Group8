@@ -56,7 +56,7 @@ public class RenderingManager {
         this.cameraManager = cameraManager;
         this.mapManager = mapManager;
         this.uiStage = new Stage(new FitViewport(1440,810), batch);
-        this.gameUI = new GameUI(uiStage, playerManager);
+        this.gameUI = new GameUI(uiStage, playerManager, this);
         this.game = game;
 
         if (!shaderSetup()) {
@@ -72,7 +72,7 @@ public class RenderingManager {
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.create();
+                restartGame();
             }
         });
         
@@ -114,7 +114,7 @@ public class RenderingManager {
         this.cameraManager = cameraManager;
         this.mapManager = mapManager;
         this.uiStage = new Stage(new ScreenViewport(), batch);
-        this.gameUI = new GameUI(uiStage, playerManager);
+        this.gameUI = new GameUI(uiStage, playerManager, this);
     }
 
     /**
@@ -340,5 +340,12 @@ public class RenderingManager {
      */
     public void hidePlayer() {
         playerVisible = false;
+    }
+    
+    /**
+     * Restarts the game.
+     */
+    public void restartGame() {
+    	game.create();
     }
 }

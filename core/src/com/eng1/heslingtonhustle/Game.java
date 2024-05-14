@@ -9,6 +9,7 @@ package com.eng1.heslingtonhustle;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,11 +27,14 @@ import com.eng1.heslingtonhustle.building.Building;
 import com.eng1.heslingtonhustle.building.BuildingManager;
 import com.eng1.heslingtonhustle.graphics.CameraManager;
 import com.eng1.heslingtonhustle.graphics.RenderingManager;
+import com.eng1.heslingtonhustle.helper.ScoreManager;
 import com.eng1.heslingtonhustle.map.MapManager;
 import com.eng1.heslingtonhustle.player.InputHandler;
 import com.eng1.heslingtonhustle.player.PlayerManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class Game extends ApplicationAdapter {
@@ -54,6 +58,7 @@ public class Game extends ApplicationAdapter {
     int frameRateIndex = 2;
     private boolean showTutorial;
     public static final String tutorialImage = "../assets/tutorial.png";
+    public Table leaderboard;
 
     /**
      * Initialises the game.
@@ -91,6 +96,8 @@ public class Game extends ApplicationAdapter {
 
         
         // Start menu
+        CreateLeaderboard();
+        
         Table rootTable = new Table(menuSkin);
         rootTable.setFillParent(true);
         rootTable.background(new TextureRegionDrawable(new Texture(backgroundPath)));
@@ -163,6 +170,7 @@ public class Game extends ApplicationAdapter {
             public void clicked(InputEvent event, float x, float y) {
             	showTutorial = false;
             	menuStage.addActor(rootTable);
+            	menuStage.addActor(leaderboard);
             	rootTable.background(new TextureRegionDrawable(new Texture(backgroundPath)));
             }
         });
@@ -174,6 +182,7 @@ public class Game extends ApplicationAdapter {
                 showTutorial = true;
                 rootTable.background(new TextureRegionDrawable(new Texture(tutorialImage)));
                 rootTable.remove();
+                leaderboard.remove();
                 menuStage.addActor(returnButton);
             }
         });
@@ -188,6 +197,8 @@ public class Game extends ApplicationAdapter {
         });
         rootTable.add(exitButton).pad(16).row();
         menuStage.addActor(rootTable);
+        menuStage.addActor(leaderboard);
+        
 
         // Initialise input system
         inputSetup();
@@ -273,5 +284,45 @@ public class Game extends ApplicationAdapter {
             menuStage.act();
             menuStage.draw();
         }
+    }
+    
+    /**
+     * Sorts saved scores into a top 10 leaderboard
+     * @return Table of top 10 scores and usernames
+     */
+    public void CreateLeaderboard() {
+    	Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleData");
+    	
+    	leaderboard = new Table(menuSkin);
+    	leaderboard.add("-- LEADERBOARD --").pad(16).row();
+    	leaderboard.setPosition(1200, 400);
+    	
+    	String allUsers = ScoreManager.getAllUsers();
+    	if(allUsers == "") return;
+    	
+    	String[] usersArray = allUsers.split(",");
+    	Integer[] scores = new Integer[usersArray.length];
+    	Integer[] indices = new Integer[usersArray.length];
+    	
+    	for (int i = 0; i < usersArray.length; i++) {
+            indices[i] = i;
+        }
+    	for (int i = 0; i < usersArray.length; i++) {
+    		scores[i] = prefs.getInteger(usersArray[i], 0);
+        }
+    	
+    	Arrays.sort(indices, (i1, i2) -> scores[i2] - scores[i1]);
+    	Integer[] sortedScores = new Integer[usersArray.length];
+        String[] sortedUsers = new String[usersArray.length];
+        for (int i = 0; i < indices.length; i++) {
+            sortedScores[i] = scores[indices[i]];
+            sortedUsers[i] = usersArray[indices[i]];
+        }
+    	for(int i = 0; i < 10; i++) {
+    		if(sortedUsers.length <= i) {
+    			break;
+    		}
+    		leaderboard.add(sortedUsers[i] + ": " + sortedScores[i]).pad(16).row();
+    	}
     }
 }

@@ -17,16 +17,10 @@ public class HelperTest {
      */
     @Test
     public void testSaveHighScore() {
-    	// Temporarily store user's currently saved score
-    	int savedScore = ScoreManager.loadHighScore();
-    	
     	// Test save system
         int testScore = 100;
-        ScoreManager.saveHighScore(testScore);
-        assertEquals(100, ScoreManager.loadHighScore());
-        
-        // Reapply user's saved score
-        ScoreManager.saveHighScore(savedScore);
+        ScoreManager.saveHighScore(testScore, ScoreManager.HIGHSCORE_TESTING_KEY);
+        assertEquals(100, ScoreManager.loadHighScore(ScoreManager.HIGHSCORE_TESTING_KEY));
     }
 
     /**

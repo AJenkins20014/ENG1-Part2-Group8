@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.eng1.heslingtonhustle.helper.ScoreManager;
+import com.eng1.heslingtonhustle.Game;
 import com.eng1.heslingtonhustle.gameobjects.Day;
 import com.eng1.heslingtonhustle.gameobjects.Time;
 import com.eng1.heslingtonhustle.player.PlayerManager;
@@ -21,6 +22,7 @@ import java.util.List;
 
 
 public class GameUI {
+	private RenderingManager renderingManager;
     private final Stage uiStage;
     private final Texture xpBackground;
     private final Texture xpFill;
@@ -43,10 +45,11 @@ public class GameUI {
      * @param uiStage       The Stage instance for UI elements
      * @param playerManager The PlayerManager instance
      */
-    public GameUI(Stage uiStage, PlayerManager playerManager) {
+    public GameUI(Stage uiStage, PlayerManager playerManager, RenderingManager renderingManager) {
         this.uiStage = uiStage;
         this.playerManager = playerManager;
         this.time = playerManager.getTime();
+        this.renderingManager = renderingManager;
         xpBackground = new Texture(Gdx.files.internal(xpBackgroundPath));
         xpFill = new Texture(Gdx.files.internal(xpFillPath));
         progressBar = new ProgressBar(0, 100, 0.01f, false, new ProgressBar.ProgressBarStyle());
@@ -137,14 +140,20 @@ public class GameUI {
         scoreTable.setFillParent(true);
         uiStage.addActor(scoreTable);
 
-        int score = calculateScore(week);
-        int highScore = ScoreManager.loadHighScore();
+        final int score = calculateScore(week);
 
-        if (score > highScore) {
-            highScore = score;
-            ScoreManager.saveHighScore(highScore);
-        }
-
+        Label saveScoreLabel = new Label("Save Score:", skin);
+        saveScoreLabel.setPosition(100, 200);
+        
+        TextField textField = new TextField("", skin);
+        textField.setMessageText("Enter Username");
+        textField.setPosition(100, 100);
+        textField.setWidth(1000);
+        textField.setMaxLength(20);
+        
+        uiStage.addActor(saveScoreLabel);	
+    	uiStage.addActor(textField);
+    	
         scoreTable.add(new Label("Day", skin)).expandX().center().bottom();
         scoreTable.add(new Label("Study", skin)).expandX().center().bottom();
         scoreTable.add(new Label("Eaten", skin)).expandX().center().bottom();
@@ -166,11 +175,24 @@ public class GameUI {
 
         scoreTable.row().expandY().bottom();
         scoreTable.add(scoreLabel).expandX().center().colspan(4).padTop(20).bottom();
-        Label highScoreLabel = new Label("High Score: " + highScore, skin);
-        highScoreLabel.setAlignment(Align.center);
-        scoreTable.add(highScoreLabel).expandX().center().colspan(4).padTop(10).bottom();
-
         scoreTable.row().pad(10).bottom();
+        
+        TextButton returnButton = new TextButton("Save and Exit", Game.menuSkin);
+        returnButton.setTransform(true);
+        returnButton.setSize(400, 100);
+        returnButton.setScale(1f);
+        returnButton.setPosition(500, 200);
+        returnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	if(textField.getText() != "") {
+            		ScoreManager.saveHighScore(score, textField.getText());
+            	}
+            	
+            	renderingManager.restartGame();
+            }
+        });
+        uiStage.addActor(returnButton);
     }
 
     /**

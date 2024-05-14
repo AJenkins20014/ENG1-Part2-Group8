@@ -44,7 +44,7 @@ public class GraphicsTest {
         Game game = new Game();
         game.testCreate(mapRendererMock, stageMock, spriteBatchMock);
 
-        GameUI gameUI = new GameUI(game.stage, game.playerManager);
+        GameUI gameUI = new GameUI(game.stage, game.playerManager, game.renderingManager);
 
         // Since we cannot simulate full UI interactions, we only verify the initial state of components
         assertNotNull(gameUI.progressBar);
