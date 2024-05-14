@@ -5,6 +5,7 @@
 package com.eng1.heslingtonhustle.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -26,8 +27,9 @@ import java.util.List;
 
 public class RenderingManager {
 
+	private Game game;
     private static final float SCALE = 5f;
-    private final SpriteBatch batch;
+    public final SpriteBatch batch;
 
     private ShaderProgram shader;
     private final CameraManager cameraManager;
@@ -38,6 +40,9 @@ public class RenderingManager {
 
     public static final String vertexShaderPath = "../assets/shader/vertexShader.glsl";
     public static final String fragmentShaderPath = "../assets/shader/fragmentShader.glsl";
+    
+    private TextButton pauseButton;
+    private TextButton exitButton;
 
     /**
      * Constructs a new RenderingManager with the given camera, map manager, and player manager.
@@ -46,18 +51,33 @@ public class RenderingManager {
      * @param mapManager    The MapManager instance
      * @param playerManager The PlayerManager instance
      */
-    public RenderingManager(CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager) {
+    public RenderingManager(CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager, Game game) {
         this.batch = new SpriteBatch();
         this.cameraManager = cameraManager;
         this.mapManager = mapManager;
         this.uiStage = new Stage(new FitViewport(1440,810), batch);
         this.gameUI = new GameUI(uiStage, playerManager);
-
+        this.game = game;
 
         if (!shaderSetup()) {
             Gdx.app.error("RenderingManager", "Error initializing shaders. Rendering may be affected.");
         }
-        TextButton pauseButton = new TextButton("PAUSE", Game.menuSkin);
+        
+        // Create in game exit button
+        exitButton = new TextButton("EXIT", Game.menuSkin);
+        exitButton.setTransform(true);
+        exitButton.setSize(180, 80);
+        exitButton.setScale(0.5f);
+        exitButton.setPosition(10, 710);
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.create();
+            }
+        });
+        
+        // Create pause button
+        pauseButton = new TextButton("PAUSE", Game.menuSkin);
         pauseButton.setTransform(true);
         pauseButton.setSize(180, 80);
         pauseButton.setScale(0.5f);
@@ -68,13 +88,17 @@ public class RenderingManager {
                 if (playerManager.movement.movementEnabled) {
                     playerManager.movement.disableMovement();
                     pauseButton.setText("RESUME");
+                    uiStage.addActor(exitButton);
                 } else {
                     playerManager.movement.enableMovement();
                     pauseButton.setText("PAUSE");
+                    exitButton.remove();
                 }
             }
         });
         uiStage.addActor(pauseButton);
+        
+        
     }
 
     /**
@@ -143,6 +167,18 @@ public class RenderingManager {
         gameUI.updateProgressBar();
         uiStage.act(Gdx.graphics.getDeltaTime());
         uiStage.draw();
+        
+       if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
+    	   if (playerManager.movement.movementEnabled) {
+               playerManager.movement.disableMovement();
+               pauseButton.setText("RESUME");
+               uiStage.addActor(exitButton);
+           } else {
+               playerManager.movement.enableMovement();
+               pauseButton.setText("PAUSE");
+               exitButton.remove();
+           }
+       }
     }
 
     /**

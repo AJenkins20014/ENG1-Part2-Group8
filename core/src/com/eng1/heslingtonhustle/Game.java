@@ -49,14 +49,20 @@ public class Game extends ApplicationAdapter {
 
     boolean isStartGame = false;
     public static Skin menuSkin;
+    public static final String menuSkinPath = "../assets/skin/craftacular/skin/craftacular-ui.json";
+    public static final String backgroundPath = "../assets/background.png";
     int frameRateIndex = 2;
+    private boolean showTutorial;
+    public static final String tutorialImage = "../assets/tutorial.png";
 
     /**
      * Initialises the game.
      */
     @Override
     public void create() {
-        menuSkin = new Skin(Gdx.files.internal("skin/craftacular/skin/craftacular-ui.json"));
+    	isStartGame = false;
+    	showTutorial = false;
+        menuSkin = new Skin(Gdx.files.internal(menuSkinPath));
         // Import and play background music
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(bgMusic));
         backgroundMusic.play();
@@ -78,16 +84,18 @@ public class Game extends ApplicationAdapter {
 
         // Initialise buildings
         buildings = buildingManager.getCampusBuildings();
-        renderingManager = new RenderingManager(cameraManager, mapManager, playerManager);
+        renderingManager = new RenderingManager(cameraManager, mapManager, playerManager, this);
         gameManager = new GameManager(stage, mapManager, playerManager, buildingManager, renderingManager);
 
         menuStage = new Stage(cameraManager.getViewport());
 
+        
+        // Start menu
         Table rootTable = new Table(menuSkin);
         rootTable.setFillParent(true);
-        rootTable.background(new TextureRegionDrawable(new Texture("background.png")));
+        rootTable.background(new TextureRegionDrawable(new Texture(backgroundPath)));
 
-        rootTable.add("Heslington Hustle").pad(64).row();
+        rootTable.add("HESLINGTON HUSTLE").pad(64).row();
         TextButton startButton = new TextButton("START", menuSkin);
         startButton.addListener(new ClickListener() {
             @Override
@@ -96,8 +104,8 @@ public class Game extends ApplicationAdapter {
             }
         });
         rootTable.add(startButton).pad(16).row();
-        TextButton optionButton = new TextButton("OPTION", menuSkin);
-        Dialog optionDialog = new Dialog("OPTION", menuSkin);
+        TextButton optionButton = new TextButton("OPTIONS", menuSkin);
+        Dialog optionDialog = new Dialog("OPTIONS", menuSkin);
         optionDialog.getContentTable().add("VOLUME").pad(16).padBottom(0).left().bottom().row();
 
         Slider volumeSlider = new Slider(0.0f, 1.0f, 0.01f, false, menuSkin);
@@ -144,7 +152,33 @@ public class Game extends ApplicationAdapter {
         });
 
         rootTable.add(optionButton).pad(16).row();
-
+        
+        TextButton returnButton = new TextButton("BACK", Game.menuSkin);
+        returnButton.setTransform(true);
+        returnButton.setSize(180, 80);
+        returnButton.setScale(1f);
+        returnButton.setPosition(10, 10);
+        returnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	showTutorial = false;
+            	menuStage.addActor(rootTable);
+            	rootTable.background(new TextureRegionDrawable(new Texture(backgroundPath)));
+            }
+        });
+        
+        TextButton tutorialButton = new TextButton("HOW TO PLAY", menuSkin);
+        tutorialButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showTutorial = true;
+                rootTable.background(new TextureRegionDrawable(new Texture(tutorialImage)));
+                rootTable.remove();
+                menuStage.addActor(returnButton);
+            }
+        });
+        rootTable.add(tutorialButton).pad(16).row();
+        
         TextButton exitButton = new TextButton("EXIT", menuSkin);
         exitButton.addListener(new ClickListener() {
             @Override
@@ -180,9 +214,6 @@ public class Game extends ApplicationAdapter {
         // Set tile collision fields
         playerManager.getMovement().setCollidableTiles(mapManager.getCollidableTiles());
 
-        // Initialise input system
-        inputSetup();
-
         // Initialise buildings
         buildings = buildingManager.getCampusBuildings();
         renderingManager = new RenderingManager(cameraManager, mapManager, playerManager, spriteBatchMock);
@@ -196,7 +227,7 @@ public class Game extends ApplicationAdapter {
     private void inputSetup() {
         InputHandler inputHandler = new InputHandler(playerManager.getState());
         InputMultiplexer inputMultiplexer = new InputMultiplexer(inputHandler, stage, menuStage, renderingManager.getGameUI().getUiStage());
-        Gdx.input.setInputProcessor(inputMultiplexer);
+    	Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
 
@@ -227,7 +258,18 @@ public class Game extends ApplicationAdapter {
             renderingManager.render(buildings, playerManager);
             stage.act();
             stage.draw();
-        } else {
+        } 
+        
+        else if(showTutorial) {
+        	renderingManager.batch.begin();
+        	renderingManager.batch.draw(new Texture(tutorialImage), 0, 0, cameraManager.getViewport().getScreenWidth(), cameraManager.getViewport().getScreenHeight());
+        	renderingManager.batch.end();
+        	
+            menuStage.act();
+            menuStage.draw();
+        }
+        
+        else {
             menuStage.act();
             menuStage.draw();
         }

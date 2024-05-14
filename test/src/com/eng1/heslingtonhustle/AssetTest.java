@@ -59,6 +59,10 @@ public class AssetTest {
 		assertTrue("XP Background found", Gdx.files.internal(GameUI.xpBackgroundPath).exists());
 		assertTrue("XP Fill found", Gdx.files.internal(GameUI.xpFillPath).exists());
 		assertTrue("Craftacular UI Skin found", Gdx.files.internal(GameUI.skinPath).exists());
+		assertTrue("Menu skin path found", Gdx.files.internal(Game.menuSkinPath).exists());
+		assertTrue("Menu skin path found", Gdx.files.internal(Game.menuSkinPath).exists());
+		assertTrue("Menu background path found", Gdx.files.internal(Game.backgroundPath).exists());
+		assertTrue("Tutorial Image path found", Gdx.files.internal(Game.tutorialImage).exists());
 	}
 	
 	/**
