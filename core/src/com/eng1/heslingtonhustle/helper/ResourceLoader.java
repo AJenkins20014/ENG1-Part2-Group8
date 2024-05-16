@@ -10,21 +10,30 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class ResourceLoader {
 
-	public static final String walkSheetPath = "../assets/character2.png";
+	public String walkSheetPath;
+	public static final String walkSheetPath1 = "../assets/character1.png";
+	public static final String walkSheetPath2 = "../assets/character2.png";
+	public static final String walkSheetPath3 = "../assets/character3.png";
 	public static final String buildingsPath = "../assets/images/town.png";
-	public static final Texture walkSheet = new Texture(Gdx.files.internal(walkSheetPath));
+	public Texture walkSheet;
     public static final Texture buildings = new Texture(Gdx.files.internal(buildingsPath));
 	
 	public static final String debugPath = "../assets/images/debug.png";
 	public static final String overlayPath = "../assets/images/overlay.png";
     public static final Texture debug = new Texture(Gdx.files.internal(debugPath));
     public static final Texture overlay = new Texture(Gdx.files.internal(overlayPath));
+    
+    public int character = 1;
+    
+    public ResourceLoader() {
+    	
+    }
 
     /**
      * Retrieves the animation for character walking downwards.
      * @return Animation<TextureRegion> representing downward walking animation
      */
-    public static Animation<TextureRegion> getDownWalk() {
+    public Animation<TextureRegion> getDownWalk() {
         return getTextureRegionByRow(0);
     }
     
@@ -32,7 +41,7 @@ public class ResourceLoader {
      * Retrieves the animation for character walking upwards.
      * @return Animation<TextureRegion> representing upward walking animation
      */
-    public static Animation<TextureRegion> getUpWalk() {
+    public Animation<TextureRegion> getUpWalk() {
         return getTextureRegionByRow(1);
     }
 
@@ -40,7 +49,7 @@ public class ResourceLoader {
      * Retrieves the animation for character walking to the right.
      * @return Animation<TextureRegion> representing right walking animation
      */
-    public static Animation<TextureRegion> getRightWalk() {
+    public Animation<TextureRegion> getRightWalk() {
         return getTextureRegionByRow(2);
     }
 
@@ -48,7 +57,7 @@ public class ResourceLoader {
      * Retrieves the animation for character walking to the left.
      * @return Animation<TextureRegion> representing left walking animation
      */
-    public static Animation<TextureRegion> getLeftWalk() {
+    public Animation<TextureRegion> getLeftWalk() {
         return getTextureRegionByRow(3);
     }
 
@@ -57,7 +66,11 @@ public class ResourceLoader {
      * @param x The row index of the animation sheet
      * @return Animation<TextureRegion> representing the animation
      */
-    private static Animation<TextureRegion> getTextureRegionByRow(int x) {
+    private Animation<TextureRegion> getTextureRegionByRow(int x) {
+    	if(character == 1) walkSheet = new Texture(Gdx.files.internal(walkSheetPath1));
+    	if(character == 2) walkSheet = new Texture(Gdx.files.internal(walkSheetPath2));
+    	if(character == 3) walkSheet = new Texture(Gdx.files.internal(walkSheetPath3));
+    	
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, 32, 32);
         TextureRegion[] out = new TextureRegion[8];
         System.arraycopy(tmp[x], 0, out, 0, 8);

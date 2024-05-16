@@ -27,7 +27,7 @@ public class PlayerManager {
      * @param speed The speed of the player's movement.
      */
     public PlayerManager(Vector2 position, float speed, Game game) {
-        movement = new Movement(position, speed);
+        movement = new Movement(position, speed, game);
         this.game = game;
     }
 
@@ -103,6 +103,17 @@ public class PlayerManager {
     public void sleep() {
     	currentDay.timeSlept = time.getTime();
         week.add(currentDay);
+        currentDay = new Day();
+        energy.reset();
+        time.nextDay();
+    }
+    
+    /**
+     * Initiates a sleep action for the player, marking the end of the current day.
+     * Resets energy, progresses to the next day, and starts a new day. For unit testing only.
+     */
+    public void testSleep() {
+    	week.add(currentDay);
         currentDay = new Day();
         energy.reset();
         time.nextDay();

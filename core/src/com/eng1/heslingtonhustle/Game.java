@@ -27,6 +27,7 @@ import com.eng1.heslingtonhustle.building.Building;
 import com.eng1.heslingtonhustle.building.BuildingManager;
 import com.eng1.heslingtonhustle.graphics.CameraManager;
 import com.eng1.heslingtonhustle.graphics.RenderingManager;
+import com.eng1.heslingtonhustle.helper.ResourceLoader;
 import com.eng1.heslingtonhustle.helper.ScoreManager;
 import com.eng1.heslingtonhustle.map.MapManager;
 import com.eng1.heslingtonhustle.player.InputHandler;
@@ -59,6 +60,7 @@ public class Game extends ApplicationAdapter {
     private boolean showTutorial;
     public static final String tutorialImage = "../assets/tutorial.png";
     public Table leaderboard;
+    public ResourceLoader resourceLoader;
 
     /**
      * Initialises the game.
@@ -68,6 +70,8 @@ public class Game extends ApplicationAdapter {
     	isStartGame = false;
     	showTutorial = false;
     	menuSkin = new Skin(Gdx.files.internal(menuSkinPath));
+    	resourceLoader = new ResourceLoader();
+    	
     	
     	// Load saved user settings
         Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleData");
@@ -103,10 +107,7 @@ public class Game extends ApplicationAdapter {
         gameManager = new GameManager(stage, mapManager, playerManager, buildingManager, renderingManager);
 
         menuStage = new Stage(cameraManager.getViewport());
-
         
-        
-    	
     	// Start menu
         CreateLeaderboard();
         int[] frameRateList = {30, 60, 75, 90, 120, 165};
@@ -127,6 +128,19 @@ public class Game extends ApplicationAdapter {
             }
         });
         rootTable.add(startButton).pad(16).row();
+        
+        TextButton changeCharacterButton = new TextButton("CHARACTER 1", menuSkin);
+        changeCharacterButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	resourceLoader.character++;
+            	if(resourceLoader.character == 4) resourceLoader.character = 1;
+            	changeCharacterButton.setText("CHARACTER " + resourceLoader.character);
+            	playerManager.movement.refreshAnimations();
+            }
+        });
+        rootTable.add(changeCharacterButton).pad(16).row();
+        
         TextButton optionButton = new TextButton("OPTIONS", menuSkin);
         Dialog optionDialog = new Dialog("OPTIONS", menuSkin);
         optionDialog.getContentTable().add("VOLUME").pad(16).padBottom(0).left().bottom().row();
@@ -217,6 +231,8 @@ public class Game extends ApplicationAdapter {
             }
         });
         rootTable.add(exitButton).pad(16).row();
+        
+        
         menuStage.addActor(rootTable);
         menuStage.addActor(leaderboard);
         
@@ -234,6 +250,7 @@ public class Game extends ApplicationAdapter {
      */
     public void testCreate(OrthogonalTiledMapRenderer mapRendererMock, Stage stageMock, SpriteBatch spriteBatchMock) {
         // Create manager objects
+    	resourceLoader = new ResourceLoader();
         cameraManager = new CameraManager();
         MapManager mapManager = new MapManager(mapRendererMock);
         BuildingManager buildingManager = new BuildingManager();

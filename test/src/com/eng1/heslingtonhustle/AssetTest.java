@@ -79,7 +79,9 @@ public class AssetTest {
      */
 	@Test
 	public void testResourceAssetsExist() {
-		assertTrue("Walk Animation Sheet found", Gdx.files.internal(ResourceLoader.walkSheetPath).exists());
+		assertTrue("Walk Animation Sheet 1 found", Gdx.files.internal(ResourceLoader.walkSheetPath1).exists());
+		assertTrue("Walk Animation Sheet 2 found", Gdx.files.internal(ResourceLoader.walkSheetPath2).exists());
+		assertTrue("Walk Animation Sheet 3 found", Gdx.files.internal(ResourceLoader.walkSheetPath3).exists());
 		assertTrue("Building textures found", Gdx.files.internal(ResourceLoader.buildingsPath).exists());
 		assertTrue("Debug textures found", Gdx.files.internal(ResourceLoader.debugPath).exists());
 		assertTrue("Overlay textures found", Gdx.files.internal(ResourceLoader.overlayPath).exists());

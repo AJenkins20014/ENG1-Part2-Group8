@@ -8,19 +8,21 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.eng1.heslingtonhustle.Game;
 import com.eng1.heslingtonhustle.helper.ResourceLoader;
 
 public class Movement {
+	private Game game;
     public static final float DIAGONAL_MODIFIER = (float) (Math.sqrt(2) / 2);
     private static final float PLAYER_WIDTH = 16;
     private static final float PLAYER_HEIGHT = 20;
     private final Vector2 position;
     private final float speed;
     public final State state;
-    private final Animation<TextureRegion> downWalkAnimation = ResourceLoader.getDownWalk();
-    private final Animation<TextureRegion> upWalkAnimation = ResourceLoader.getUpWalk();
-    private final Animation<TextureRegion> leftWalkAnimation = ResourceLoader.getLeftWalk();
-    private final Animation<TextureRegion> rightWalkAnimation = ResourceLoader.getRightWalk();
+    private Animation<TextureRegion> downWalkAnimation;
+    private Animation<TextureRegion> upWalkAnimation;
+    private Animation<TextureRegion> leftWalkAnimation;
+    private Animation<TextureRegion> rightWalkAnimation;
     private float stateTime;
     private Animation<TextureRegion> currentAnimation;
     private TextureRegion currentFrame;
@@ -32,10 +34,25 @@ public class Movement {
      * @param position The initial position of the player.
      * @param speed The speed of the player's movement.
      */
-    public Movement(Vector2 position, float speed) {
+    public Movement(Vector2 position, float speed, Game game) {
         this.position = position;
         this.speed = speed;
         this.state = new State();
+        this.game = game;
+        
+        downWalkAnimation = game.resourceLoader.getDownWalk();
+        upWalkAnimation = game.resourceLoader.getUpWalk();
+        leftWalkAnimation = game.resourceLoader.getLeftWalk();
+        rightWalkAnimation = game.resourceLoader.getRightWalk();
+        
+        currentAnimation = downWalkAnimation;
+    }
+    
+    public void refreshAnimations() {
+    	downWalkAnimation = game.resourceLoader.getDownWalk();
+        upWalkAnimation = game.resourceLoader.getUpWalk();
+        leftWalkAnimation = game.resourceLoader.getLeftWalk();
+        rightWalkAnimation = game.resourceLoader.getRightWalk();
         currentAnimation = downWalkAnimation;
     }
     

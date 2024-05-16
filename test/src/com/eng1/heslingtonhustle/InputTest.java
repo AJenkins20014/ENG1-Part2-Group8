@@ -7,14 +7,18 @@ package com.eng1.heslingtonhustle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.eng1.heslingtonhustle.player.InputHandler;
 import com.eng1.heslingtonhustle.player.Movement;
@@ -23,6 +27,7 @@ import com.eng1.heslingtonhustle.player.Movement;
 @RunWith(GdxTestRunner.class)
 public class InputTest {
 
+	private Game game;
 	private Movement movement;
     private Array<Rectangle> collidableTiles;
 
@@ -32,7 +37,16 @@ public class InputTest {
      */
     @Before
     public void setUp() {
-        movement = new Movement(new Vector2(0, 0), 10);
+    	// Mock required classes
+    	OrthogonalTiledMapRenderer mapRendererMock = mock(OrthogonalTiledMapRenderer.class);
+        Stage stageMock = mock(Stage.class);
+        SpriteBatch spriteBatchMock = mock(SpriteBatch.class);
+        
+        // Initialise new game with mocked classes
+        game = new Game();
+        game.testCreate(mapRendererMock, stageMock, spriteBatchMock);
+    	
+        movement = new Movement(new Vector2(0, 0), 10, game);
         collidableTiles = new Array<>();
         collidableTiles.add(new Rectangle(0, 1, 10, 10));
     }

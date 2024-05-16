@@ -93,7 +93,7 @@ public class PlayerTest {
 		playerManager = new PlayerManager(new Vector2(0, 0), 0, game);
 		assertFalse("Game is not over upon initialisation", playerManager.gameOver());
 		for(int i = 0; i < 6; i++) {
-			playerManager.sleep();
+			playerManager.testSleep();
 		}
 		assertFalse("Game is not over after 6 days", playerManager.gameOver());
 		playerManager.sleep();

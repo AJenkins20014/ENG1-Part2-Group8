@@ -30,17 +30,17 @@ public class HelperTest {
      */
     @Test
     public void testResourceLoader() {
+    	ResourceLoader resourceLoader = new ResourceLoader();
         // Test whether ResourceLoader successfully loads textures
-        assertNotNull(ResourceLoader.walkSheet);
         assertNotNull(ResourceLoader.buildings);
         assertNotNull(ResourceLoader.debug);
         assertNotNull(ResourceLoader.overlay);
 
         // Test whether ResourceLoader successfully retrieves animations
-        assertNotNull(ResourceLoader.getDownWalk());
-        assertNotNull(ResourceLoader.getUpWalk());
-        assertNotNull(ResourceLoader.getRightWalk());
-        assertNotNull(ResourceLoader.getLeftWalk());
+        assertNotNull(resourceLoader.getDownWalk());
+        assertNotNull(resourceLoader.getUpWalk());
+        assertNotNull(resourceLoader.getRightWalk());
+        assertNotNull(resourceLoader.getLeftWalk());
 
         // Test whether ResourceLoader successfully retrieves building textures
         assertNotNull(ResourceLoader.getBuildingTextureRegion(0, 0, 1, 1));
