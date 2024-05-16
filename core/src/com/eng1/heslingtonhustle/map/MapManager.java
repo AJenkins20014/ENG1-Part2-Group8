@@ -27,13 +27,13 @@ public class MapManager {
     private final Array<ActivityTile> activityTiles = new Array<>();
     
     public String currentMapPath = "maps/campus_east.tmx";
-    public static final String defaultMapPath = "../assets/maps/campus_east.tmx";
-    public static final String cafeMapPath = "../assets/maps/cafe.tmx";
-    public static final String cinemaMapPath = "../assets/maps/cinema.tmx";
-    public static final String compSciMapPath = "../assets/maps/compSci.tmx";
-    public static final String endGameMapPath = "../assets/maps/end_game.tmx";
-    public static final String homeMapPath = "../assets/maps/home.tmx";
-    public static final String libraryMapPath = "../assets/maps/library.tmx";
+    public static final String defaultMapPath = "maps/campus_east.tmx";
+    public static final String cafeMapPath = "maps/cafe.tmx";
+    public static final String cinemaMapPath = "maps/cinema.tmx";
+    public static final String compSciMapPath = "maps/compSci.tmx";
+    public static final String endGameMapPath = "maps/end_game.tmx";
+    public static final String homeMapPath = "maps/home.tmx";
+    public static final String libraryMapPath = "maps/library.tmx";
 
     /**
      * Constructs a new MapManager instance.

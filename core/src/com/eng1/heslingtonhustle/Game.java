@@ -49,18 +49,19 @@ public class Game extends ApplicationAdapter {
     public CameraManager cameraManager;
     public GameManager gameManager;
     public MapManager mapManager;
-    public static final String bgMusic = "../assets/bgtrack.mp3";
+    public static final String bgMusic = "bgtrack.mp3";
     public Music backgroundMusic;
 
     boolean isStartGame = false;
     public static Skin menuSkin;
-    public static final String menuSkinPath = "../assets/skin/craftacular/skin/craftacular-ui.json";
-    public static final String backgroundPath = "../assets/background.png";
+    public static final String menuSkinPath = "skin/craftacular/skin/craftacular-ui.json";
+    public static final String backgroundPath = "background.png";
     int frameRateIndex = 2;
     private boolean showTutorial;
-    public static final String tutorialImage = "../assets/tutorial.png";
+    public static final String tutorialImage = "tutorial.png";
     public Table leaderboard;
     public ResourceLoader resourceLoader;
+    private Texture tutorialTexture;
 
     /**
      * Initialises the game.
@@ -71,7 +72,7 @@ public class Game extends ApplicationAdapter {
     	showTutorial = false;
     	menuSkin = new Skin(Gdx.files.internal(menuSkinPath));
     	resourceLoader = new ResourceLoader();
-    	
+    	tutorialTexture = new Texture(Gdx.files.internal(tutorialImage));
     	
     	// Load saved user settings
         Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleData");
@@ -166,6 +167,7 @@ public class Game extends ApplicationAdapter {
                     fullScreenButton.setText("FULL SCREEN: ON");
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
                 }
+                cameraManager.getViewport().setScreenSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             }
         });
         optionDialog.getContentTable().add(fullScreenButton).pad(16).row();
@@ -290,8 +292,9 @@ public class Game extends ApplicationAdapter {
     public void resize(int width, int height) {
         cameraManager.getViewport().update(width, height, true);
         renderingManager.getGameUI().getUiStage().getViewport().update(width, height);
+        menuStage.getViewport().update(width, height, true);
     }
-
+    
     /**
      * Renders the game and its components. Called every frame.
      */
@@ -307,11 +310,11 @@ public class Game extends ApplicationAdapter {
             renderingManager.render(buildings, playerManager);
             stage.act();
             stage.draw();
-        } 
+        }
         
         else if(showTutorial) {
         	renderingManager.batch.begin();
-        	renderingManager.batch.draw(new Texture(tutorialImage), 0, 0, cameraManager.getViewport().getScreenWidth(), cameraManager.getViewport().getScreenHeight());
+            renderingManager.batch.draw(tutorialTexture, 0, 0);
         	renderingManager.batch.end();
         	
             menuStage.act();

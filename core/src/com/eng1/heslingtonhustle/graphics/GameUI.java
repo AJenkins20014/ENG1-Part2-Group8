@@ -38,9 +38,9 @@ public class GameUI {
     private final Skin skin;
     private Label interactLabel;
 
-    public static final String xpBackgroundPath = "../assets/skin/craftacular/raw/xp-bg.png";
-    public static final String xpFillPath = "../assets/skin/craftacular/raw/xp.png";
-    public static final String skinPath = "../assets/skin/craftacular/skin/craftacular-ui.json";
+    public static final String xpBackgroundPath = "skin/craftacular/raw/xp-bg.png";
+    public static final String xpFillPath = "skin/craftacular/raw/xp.png";
+    public static final String skinPath = "skin/craftacular/skin/craftacular-ui.json";
 
     /**
      * Constructs a new GameUI instance with the given Stage and PlayerManager.

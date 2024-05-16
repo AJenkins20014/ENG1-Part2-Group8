@@ -27,7 +27,7 @@ import static com.eng1.heslingtonhustle.Game.SCALE;
 public class BuildingManager {
 
     private final List<Building> campusBuildings;
-    public static final String buildingInfo = "../assets/buildings.json";
+    public static final String buildingInfo = "buildings.json";
 
     /**
      * Constructs a new BuildingManager and loads building information from a JSON file.

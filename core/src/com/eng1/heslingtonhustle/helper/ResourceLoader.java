@@ -11,15 +11,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class ResourceLoader {
 
 	public String walkSheetPath;
-	public static final String walkSheetPath1 = "../assets/character1.png";
-	public static final String walkSheetPath2 = "../assets/character2.png";
-	public static final String walkSheetPath3 = "../assets/character3.png";
-	public static final String buildingsPath = "../assets/images/town.png";
+	public static final String walkSheetPath1 = "character1.png";
+	public static final String walkSheetPath2 = "character2.png";
+	public static final String walkSheetPath3 = "character3.png";
+	public static final String buildingsPath = "images/town.png";
 	public Texture walkSheet;
     public static final Texture buildings = new Texture(Gdx.files.internal(buildingsPath));
 	
-	public static final String debugPath = "../assets/images/debug.png";
-	public static final String overlayPath = "../assets/images/overlay.png";
+	public static final String debugPath = "images/debug.png";
+	public static final String overlayPath = "images/overlay.png";
     public static final Texture debug = new Texture(Gdx.files.internal(debugPath));
     public static final Texture overlay = new Texture(Gdx.files.internal(overlayPath));
     

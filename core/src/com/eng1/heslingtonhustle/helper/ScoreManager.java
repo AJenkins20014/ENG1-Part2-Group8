@@ -44,7 +44,7 @@ public class ScoreManager {
                 break;
             }
         }
-        if(!userExists) {
+        if(!userExists && username != "HIGHSCORE_TEST") {
         	if(allUsers == "") {
         		allUsers = username;
         	}

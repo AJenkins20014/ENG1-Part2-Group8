@@ -38,8 +38,8 @@ public class RenderingManager {
     private final GameUI gameUI;
     private boolean playerVisible = true;
 
-    public static final String vertexShaderPath = "../assets/shader/vertexShader.glsl";
-    public static final String fragmentShaderPath = "../assets/shader/fragmentShader.glsl";
+    public static final String vertexShaderPath = "shader/vertexShader.glsl";
+    public static final String fragmentShaderPath = "shader/fragmentShader.glsl";
     
     private TextButton pauseButton;
     private TextButton exitButton;

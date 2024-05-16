@@ -38,7 +38,7 @@ public class GameManager {
     private Building currentBuilding;
     
     
-    public static final String uiSkin = "../assets/skin/default/uiskin.json";
+    public static final String uiSkin = "skin/default/uiskin.json";
 
     /**
      * Constructs a new GameManager with the specified parameters.
