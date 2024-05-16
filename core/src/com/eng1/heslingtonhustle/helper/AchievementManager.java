@@ -1,3 +1,21 @@
+/**
+ * The AchievementManager class is responsible for managing and calculating
+ * the various achievements that a player can earn based on their actions 
+ * throughout the game week.
+ * 
+ * Achievements include:
+ * - Overachiever: Study more than once every day (+5)
+ * - Glutton: Eat more than three times in one day (+2)
+ * - Laid Back: Go a whole day without studying (+0)
+ * - Dieting: Go a whole week without eating (+2)
+ * - Sleeping Beauty: Go to sleep before 8pm at least twice (+5)
+ * - Overworked: Go a whole week without relaxing (+2)
+ * - Bookworm: Study in the library at least 6 times (+5)
+ * - Technoholic: Study in the CS Building at least 6 times (+5)
+ * 
+ * Each achievement has an associated bonus score which is added to the player's 
+ * total score if the achievement is earned.
+ */
 package com.eng1.heslingtonhustle.helper;
 
 import java.util.ArrayList;
@@ -9,19 +27,6 @@ import com.eng1.heslingtonhustle.map.MapManager;
 
 public class AchievementManager {
 	
-	/*
-	 * Achievements:
-	 * 
-	 * Overachiever: Study more than once every day (+5)
-	 * Glutton: Eat more than three times in one day (+2)
-	 * Laid Back: Go a whole day without studing (+0)
-	 * Dieting: Go a whole week without eating (+2)
-	 * Sleeping Beauty: Go to sleep before 8pm at least twice (+5)
-	 * Overworked: Go a whole week without relaxing (+2)
-	 * Bookworm: Study in the library at least 6 times (+5)
-	 * Technoholic: Study in the CS Building at least 6 times (+5)
-	 */
-	
 	private boolean overAchiever;
 	private boolean glutton;
 	private boolean laidBack;
@@ -31,11 +36,17 @@ public class AchievementManager {
 	private boolean bookworm;
 	private boolean technoholic;
 
-	
+	/**
+	 * Constructs a new instance of the AchievementManager class.
+	 */
 	public AchievementManager() {
 
 	}
-	
+
+	/**
+     * Calculates and updates the status of all achievements based on the given week data.
+     * @param week The list of all Day objects in the week.
+     */
 	public void calculateAchievements(List<Day> week) {
 		overAchiever = overAchiever(week);
 		glutton = glutton(week);
@@ -47,6 +58,10 @@ public class AchievementManager {
 		technoholic = technoholic(week);
 	}
 	
+	/**
+     * Calculates the total achievement bonus score based on earned achievements.
+     * @return The total bonus score.
+     */
 	public int getAchievementBonus() {
 		int bonus = 0;
 		if(overAchiever) bonus += 5;
@@ -61,6 +76,10 @@ public class AchievementManager {
 		return(bonus);
 	}
 	
+	/**
+     * Returns a list of booleans indicating which achievements have been earned.
+     * @return A list of booleans representing the status of each achievement.
+     */
 	public List<Boolean> getAchievementsEarned() {
 		List<Boolean> achievementList = new ArrayList<>();
 		achievementList.add(overAchiever);
@@ -75,6 +94,10 @@ public class AchievementManager {
 		return(achievementList);
 	}
 	
+	/**
+     * Returns a list of all possible achievements.
+     * @return A list of strings representing all achievements.
+     */
 	public List<String> getAllAchievements() {
 		List<String> achievementList = new ArrayList<>();
 		achievementList.add("Over Achiever");
@@ -89,6 +112,11 @@ public class AchievementManager {
 		return(achievementList);
 	}
 	
+	/**
+     * Returns the description of a specific achievement.
+     * @param achievement The name of the achievement.
+     * @return The description of the achievement.
+     */
 	public String getDescription(String achievement) {
 		if(achievement == "Over Achiever") {
 			return("Study more than once every day");
@@ -119,6 +147,11 @@ public class AchievementManager {
 		}
 	}
 	
+	/**
+     * Returns the bonus score of a specific achievement.
+     * @param achievement The name of the achievement.
+     * @return The bonus score of the achievement.
+     */
 	public String getBonus(String achievement) {
 		if(achievement == "Over Achiever") {
 			return("5");
@@ -149,6 +182,11 @@ public class AchievementManager {
 		}
 	}
 	
+	/**
+     * Checks if the Overachiever achievement is earned.
+     * @param week The list of all Day objects in the week.
+     * @return True if the player studied more than once every day, false otherwise.
+     */
 	public boolean overAchiever(List<Day> week){
 		boolean achieved = true;
 		
@@ -161,6 +199,11 @@ public class AchievementManager {
 		return achieved;
 	}
 	
+	/**
+     * Checks if the Glutton achievement is earned.
+     * @param week The list of all Day objects in the week.
+     * @return True if the player ate more than three times in one day, false otherwise.
+     */
 	public boolean glutton(List<Day> week) {
 		boolean achieved = false;
 		
@@ -173,6 +216,11 @@ public class AchievementManager {
 		return achieved;
 	}
 	
+	/**
+     * Checks if the Laid Back achievement is earned.
+     * @param week The list of all Day objects in the week.
+     * @return True if the player went a whole day without studying, false otherwise.
+     */
 	public boolean laidBack(List<Day> week) {
 		boolean achieved = false;
 		
@@ -185,6 +233,11 @@ public class AchievementManager {
 		return achieved;
 	}
 	
+	/**
+     * Checks if the Dieting achievement is earned.
+     * @param week The list of all Day objects in the week.
+     * @return True if the player went a whole week without eating, false otherwise.
+     */
 	public boolean dieting(List<Day> week) {
 		boolean achieved = false;
 		
@@ -197,6 +250,11 @@ public class AchievementManager {
 		return achieved;
 	}
 	
+	/**
+     * Checks if the Sleeping Beauty achievement is earned.
+     * @param week The list of all Day objects in the week.
+     * @return True if the player went to sleep before 8pm at least twice, false otherwise.
+     */
 	public boolean sleepingBeauty(List<Day> week) {
 		int counter = 0;
 		
@@ -209,6 +267,11 @@ public class AchievementManager {
 		return (counter >= 2);
 	}
 	
+	/**
+     * Checks if the Overworked achievement is earned.
+     * @param week The list of all Day objects in the week.
+     * @return True if the player went a whole week without relaxing, false otherwise.
+     */
 	public boolean overworked(List<Day> week) {
 		boolean achieved = true;
 		
@@ -221,6 +284,11 @@ public class AchievementManager {
 		return achieved;
 	}
 	
+	/**
+     * Checks if the Bookworm achievement is earned.
+     * @param week The list of all Day objects in the week.
+     * @return True if the player studied in the library at least 6 times, false otherwise.
+     */
 	public boolean bookworm(List<Day> week) {
 		int counter = 0;
 		
@@ -233,6 +301,11 @@ public class AchievementManager {
 		return (counter >= 6);
 	}
 	
+	/**
+     * Checks if the Technoholic achievement is earned.
+     * @param week The list of all Day objects in the week.
+     * @return True if the player studied in the CS Building at least 6 times, false otherwise.
+     */
 	public boolean technoholic(List<Day> week) {
 		int counter = 0;
 		

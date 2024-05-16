@@ -352,6 +352,10 @@ public class GameUI {
         return score;
     }
 
+    /**
+     * Gets the game ui stage.
+     * @return The game's uiStage
+     */
     public Stage getUiStage() {
         return uiStage;
     }

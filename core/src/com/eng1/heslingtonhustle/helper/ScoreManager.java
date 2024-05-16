@@ -57,6 +57,10 @@ public class ScoreManager {
         prefs.flush();
     }
     
+    /**
+     * Returns the string of all saved users, separated with a comma.
+     * @return String of all saved users
+     */
     public static String getAllUsers() {
     	Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleScores");
     	String allUsers = prefs.getString("allUsers", "");
