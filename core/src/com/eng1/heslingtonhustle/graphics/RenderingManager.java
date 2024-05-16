@@ -346,6 +346,7 @@ public class RenderingManager {
      * Restarts the game.
      */
     public void restartGame() {
+    	game.backgroundMusic.stop();
     	game.create();
     }
 }

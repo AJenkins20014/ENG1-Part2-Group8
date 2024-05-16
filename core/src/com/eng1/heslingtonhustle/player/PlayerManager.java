@@ -101,6 +101,7 @@ public class PlayerManager {
      * Resets energy, progresses to the next day, and starts a new day.
      */
     public void sleep() {
+    	currentDay.timeSlept = time.getTime();
         week.add(currentDay);
         currentDay = new Day();
         energy.reset();

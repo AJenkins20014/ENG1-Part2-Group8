@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.eng1.heslingtonhustle.helper.AchievementManager;
 import com.eng1.heslingtonhustle.helper.ScoreManager;
 import com.eng1.heslingtonhustle.Game;
 import com.eng1.heslingtonhustle.gameobjects.Day;
@@ -23,6 +24,7 @@ import java.util.List;
 
 public class GameUI {
 	private RenderingManager renderingManager;
+	private AchievementManager achievementManager;
     private final Stage uiStage;
     private final Texture xpBackground;
     private final Texture xpFill;
@@ -32,6 +34,7 @@ public class GameUI {
     private final PlayerManager playerManager;
     private final Time time;
     private Table scoreTable;
+    private Table achievementTable;
     private final Skin skin;
     private Label interactLabel;
 
@@ -48,6 +51,7 @@ public class GameUI {
     public GameUI(Stage uiStage, PlayerManager playerManager, RenderingManager renderingManager) {
         this.uiStage = uiStage;
         this.playerManager = playerManager;
+        this.achievementManager = new AchievementManager();
         this.time = playerManager.getTime();
         this.renderingManager = renderingManager;
         xpBackground = new Texture(Gdx.files.internal(xpBackgroundPath));
@@ -138,7 +142,6 @@ public class GameUI {
         uiStage.clear();
         scoreTable = new Table();
         scoreTable.setFillParent(true);
-        uiStage.addActor(scoreTable);
 
         final int score = calculateScore(week);
 
@@ -163,7 +166,7 @@ public class GameUI {
             addDayStatsLabel(time.getDay(index), day.getStudySessions(), day.getEaten(), day.getRelaxed());
             index++;
         }
-
+        
         String grade = "First!";
         if(score < 70f) grade = "2:1";
         if(score < 60f) grade = "2:2";
@@ -172,7 +175,6 @@ public class GameUI {
         
         Label scoreLabel = new Label("Final Score: " + score + " - " + grade, skin);
         scoreLabel.setAlignment(Align.center);
-
         scoreTable.row().expandY().bottom();
         scoreTable.add(scoreLabel).expandX().center().colspan(4).padTop(20).bottom();
         scoreTable.row().pad(10).bottom();
@@ -193,6 +195,64 @@ public class GameUI {
             }
         });
         uiStage.addActor(returnButton);
+        
+        TextButton hideDetailsButton = new TextButton("Hide Details", Game.menuSkin);
+        TextButton detailsButton = new TextButton("View Details", Game.menuSkin);
+        
+        hideDetailsButton.setTransform(true);
+        hideDetailsButton.setSize(400, 100);
+        hideDetailsButton.setScale(1f);
+        hideDetailsButton.setPosition(900, 200);
+        hideDetailsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	scoreTable.remove();
+            	uiStage.addActor(achievementTable);
+            	hideDetailsButton.remove();
+            	uiStage.addActor(detailsButton);
+            }
+        });
+        
+        detailsButton.setTransform(true);
+        detailsButton.setSize(400, 100);
+        detailsButton.setScale(1f);
+        detailsButton.setPosition(900, 200);
+        detailsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	achievementTable.remove();
+            	uiStage.addActor(scoreTable);
+            	detailsButton.remove();
+            	uiStage.addActor(hideDetailsButton);
+            }
+        });
+        uiStage.addActor(detailsButton);
+        
+        
+        
+        achievementTable = new Table();
+        achievementTable.setFillParent(true);
+        achievementTable.add(new Label("Achievement", skin)).expandX().center().bottom();
+        achievementTable.add(new Label("Earned?", skin)).expandX().center().bottom();
+        achievementTable.add(new Label("Description", skin)).expandX().center().bottom();
+        achievementTable.add(new Label("Bonus", skin)).expandX().center().bottom();
+        
+        List<String> allAchievements = achievementManager.getAllAchievements();
+        List<Boolean> achievementsEarned = achievementManager.getAchievementsEarned();
+        
+        for (int i = 0; i < allAchievements.size(); i++) {
+        	String earned = "No";
+        	String description = "???";
+        	if(achievementsEarned.get(i)) earned = "Yes";
+        	if(achievementsEarned.get(i)) description = achievementManager.getDescription(allAchievements.get(i));
+            addAchievementsLabel(allAchievements.get(i), earned, description, achievementManager.getBonus(allAchievements.get(i)));
+            index++;
+        }
+        Label scoreLabel2 = new Label("Final Score: " + score + " - " + grade, skin);
+        achievementTable.row().expandY().bottom();
+        achievementTable.add(scoreLabel2).expandX().center().colspan(4).padTop(20).bottom();
+        achievementTable.row().pad(10).bottom();
+        uiStage.addActor(achievementTable);
     }
 
     /**
@@ -209,6 +269,22 @@ public class GameUI {
         scoreTable.add(new Label(String.valueOf(studySessions), skin)).expandX().center().bottom();
         scoreTable.add(new Label(String.valueOf(eaten), skin)).expandX().center().bottom();
         scoreTable.add(new Label(String.valueOf(relaxed), skin)).expandX().center().bottom();
+    }
+    
+    /**
+     * Adds a row of statistics for a specific day to the score table.
+     *
+     * @param dayLabel      The label representing the day
+     * @param studySessions The number of study sessions for the day
+     * @param eaten         The number of times eaten for the day
+     * @param relaxed       The number of times relaxed for the day
+     */
+    private void addAchievementsLabel(String achievement, String earned, String description, String bonus) {
+    	achievementTable.row().pad(10);
+    	achievementTable.add(new Label(achievement, skin)).expandX().center().bottom();
+    	achievementTable.add(new Label(earned, skin)).expandX().center().bottom();
+    	achievementTable.add(new Label(description, skin)).expandX().center().bottom();
+    	achievementTable.add(new Label(bonus, skin)).expandX().center().bottom();
     }
 
     /**
@@ -251,7 +327,13 @@ public class GameUI {
         }
 
         score = studyCount * 10;
+        
+        // Cap the score at maxScore
         score = Math.min(score, maxScore);
+        
+        // Calculate achievement bonus
+        achievementManager.calculateAchievements(week);
+        score += achievementManager.getAchievementBonus();
 
         // Apply penalties
         if (dayStudiedOnce < 7 && !catchup) {
@@ -264,11 +346,9 @@ public class GameUI {
 
         if (dayRelaxedOnce < 7) {
             score -= 10; // Penalty for not relaxing enough
-        }
-
-        // Cap the score at maxScore
-
-        score = Math.max(score, 0);
+        }   
+        
+        score = Math.max(score, 0); // Negative score resolved to 0
         return score;
     }
 

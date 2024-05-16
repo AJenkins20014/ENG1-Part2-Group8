@@ -10,6 +10,7 @@ public class Day {
     public int studySessions;
     public int eaten;
     public int relaxed;
+    public int timeSlept; // Time at which the player went to sleep
     public ArrayList<String> placesStudied = new ArrayList<String>();
     public ArrayList<String> placesRelaxed = new ArrayList<String>();
     

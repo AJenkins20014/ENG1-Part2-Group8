@@ -14,7 +14,7 @@ public class ScoreManager {
      * @return The loaded high score
      */
     public static int loadHighScore(String username) {
-        Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleData");
+        Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleScores");
         return prefs.getInteger(username, 0);
     }
 
@@ -25,7 +25,12 @@ public class ScoreManager {
     public static void saveHighScore(int score, String username) {
     	username.replaceAll(",","");
     	
-        Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleData");
+    	if(username == "allUsers") {
+    		System.out.print("Username cannot be \"allUsers\"!");
+    		return;
+    	}
+    	
+        Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleScores");
         if(loadHighScore(username) > score || score == 0) {
         	return;
         }
@@ -53,7 +58,7 @@ public class ScoreManager {
     }
     
     public static String getAllUsers() {
-    	Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleData");
+    	Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleScores");
     	String allUsers = prefs.getString("allUsers", "");
         return(allUsers);
     }

@@ -49,7 +49,7 @@ public class Game extends ApplicationAdapter {
     public GameManager gameManager;
     public MapManager mapManager;
     public static final String bgMusic = "../assets/bgtrack.mp3";
-    Music backgroundMusic;
+    public Music backgroundMusic;
 
     boolean isStartGame = false;
     public static Skin menuSkin;
@@ -67,12 +67,22 @@ public class Game extends ApplicationAdapter {
     public void create() {
     	isStartGame = false;
     	showTutorial = false;
-        menuSkin = new Skin(Gdx.files.internal(menuSkinPath));
+    	menuSkin = new Skin(Gdx.files.internal(menuSkinPath));
+    	
+    	// Load saved user settings
+        Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleData");
+        Gdx.graphics.setForegroundFPS(prefs.getInteger("FPS", 60));
+        if (!prefs.getBoolean("fullscreen")) {
+            Gdx.graphics.setWindowedMode(1440, 810);
+        } else {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        }
+    	
         // Import and play background music
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(bgMusic));
         backgroundMusic.play();
         backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(.5f);
+        backgroundMusic.setVolume(prefs.getFloat("volume", 0.5f));
 
         // Create manager objects
         cameraManager = new CameraManager();
@@ -95,8 +105,11 @@ public class Game extends ApplicationAdapter {
         menuStage = new Stage(cameraManager.getViewport());
 
         
-        // Start menu
+        
+    	
+    	// Start menu
         CreateLeaderboard();
+        int[] frameRateList = {30, 60, 75, 90, 120, 165};
         
         Table rootTable = new Table(menuSkin);
         rootTable.setFillParent(true);
@@ -107,6 +120,9 @@ public class Game extends ApplicationAdapter {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	prefs.putFloat("volume", backgroundMusic.getVolume());
+            	prefs.putBoolean("fullscreen", Gdx.graphics.isFullscreen());
+            	prefs.flush();
                 isStartGame = true;
             }
         });
@@ -125,6 +141,7 @@ public class Game extends ApplicationAdapter {
         });
         optionDialog.getContentTable().add(volumeSlider).fill().pad(16).row();
         TextButton fullScreenButton = new TextButton("FULL SCREEN: OFF", menuSkin);
+        if (Gdx.graphics.isFullscreen()) fullScreenButton.setText("FULL SCREEN: ON");
         fullScreenButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -140,12 +157,13 @@ public class Game extends ApplicationAdapter {
         optionDialog.getContentTable().add(fullScreenButton).pad(16).row();
 
         TextButton frameRateButton = new TextButton("FRAME RATE: 60 HZ", menuSkin);
-        int[] frameRateList = {30, 60, 75, 90, 120, 165};
+        frameRateButton.setText("FRAME RATE: " + prefs.getInteger("FPS", 60) + " HZ");
         frameRateButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.graphics.setForegroundFPS(frameRateList[frameRateIndex % frameRateList.length]);
                 frameRateButton.setText("FRAME RATE: " + frameRateList[frameRateIndex % frameRateList.length] + " HZ");
+                prefs.putInteger("FPS", frameRateList[frameRateIndex % frameRateList.length]);
                 frameRateIndex++;
             }
         });
@@ -192,6 +210,9 @@ public class Game extends ApplicationAdapter {
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+            	prefs.putFloat("volume", backgroundMusic.getVolume());
+            	prefs.putBoolean("fullscreen", Gdx.graphics.isFullscreen());
+            	prefs.flush();
                 Gdx.app.exit();
             }
         });
@@ -291,7 +312,7 @@ public class Game extends ApplicationAdapter {
      * @return Table of top 10 scores and usernames
      */
     public void CreateLeaderboard() {
-    	Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleData");
+    	Preferences prefs = Gdx.app.getPreferences("HeslingtonHustleScores");
     	
     	leaderboard = new Table(menuSkin);
     	leaderboard.add("-- LEADERBOARD --").pad(16).row();
