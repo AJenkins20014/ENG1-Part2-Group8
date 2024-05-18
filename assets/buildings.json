@@ -53,5 +53,27 @@
     "activityName": "Eat",
     "energy": 0,
     "time": 1
+  },
+  {
+    "id": "pier",
+    "name": "Pier",
+    "textureStartX": 0,
+    "textureStartY": 0,
+    "textureWidth": 0,
+    "textureHeight": 0,
+    "activityName": "Relax",
+    "energy": 0,
+    "time": 2
+  },
+  {
+    "id": "bus_stop",
+    "name": "Bus Stop",
+    "textureStartX": 0,
+    "textureStartY": 0,
+    "textureWidth": 0,
+    "textureHeight": 0,
+    "activityName": "Relax",
+    "energy": 0,
+    "time": 2
   }
 ]

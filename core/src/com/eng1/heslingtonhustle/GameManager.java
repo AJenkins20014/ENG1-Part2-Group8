@@ -22,6 +22,7 @@ import com.eng1.heslingtonhustle.map.ActivityTile;
 import com.eng1.heslingtonhustle.map.MapManager;
 import com.eng1.heslingtonhustle.player.PlayerManager;
 import com.eng1.heslingtonhustle.activities.Activity;
+import com.eng1.heslingtonhustle.activities.Relax;
 
 import java.util.List;
 
@@ -121,11 +122,18 @@ public class GameManager {
      * @param building The building to enter
      */
     private void enterBuilding(Building building) {
+    	if(building.getName().equals("Pier") || building.getName().equals("Bus Stop")) {
+    		playerManager.getState().interacting();
+        	askToDoActivity(building.getActivity());
+        	return;
+        }
+    	
         playerManager.getState().inMenu();
         String newMapPath = mapManager.getMapPath(building.getName());
         respawnLocation = new Vector2(playerManager.getPosition());
         playerInBuilding = true;
         currentBuilding = building;
+        
         mapManager.changeMap(newMapPath);
         buildingManager.makeBuildingsDisappear();
         playerManager.movement.setPosition(new Vector2(400, 150));
