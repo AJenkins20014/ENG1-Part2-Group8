@@ -4,7 +4,7 @@
  * initialises manager objects that are crucial for the game
  * to function.
  */
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

@@ -10,6 +10,7 @@ import com.eng1.heslingtonhustle.graphics.GameUI;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.eng1.heslingtonhustle.game.Game;
 import com.eng1.heslingtonhustle.graphics.CameraManager;
 
 /**

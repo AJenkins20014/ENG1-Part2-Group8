@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.eng1.heslingtonhustle.game.Game;
 import com.eng1.heslingtonhustle.player.InputHandler;
 import com.eng1.heslingtonhustle.player.Movement;
 

@@ -21,7 +21,7 @@ package com.eng1.heslingtonhustle.helper;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.eng1.heslingtonhustle.Game;
+import com.eng1.heslingtonhustle.game.Game;
 import com.eng1.heslingtonhustle.gameobjects.Day;
 import com.eng1.heslingtonhustle.map.MapManager;
 

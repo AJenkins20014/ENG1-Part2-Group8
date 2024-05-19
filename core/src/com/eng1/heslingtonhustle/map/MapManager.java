@@ -14,9 +14,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.Map;
-import java.util.HashMap;
 
-import static com.eng1.heslingtonhustle.Game.SCALE;
+import static com.eng1.heslingtonhustle.game.Game.SCALE;
+
+import java.util.HashMap;
 
 public class MapManager {
     private TiledMap tiledMap;
