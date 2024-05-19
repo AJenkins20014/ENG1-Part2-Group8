@@ -20,25 +20,12 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    - name: Install Necessary System Packages
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libxrandr-dev libxext-dev libxi-dev libglfw3 libglfw3-dev
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
     - name: Build with Gradle Wrapper
-      run: ./gradlew build jacocoTestReport --info
+      run: ./gradlew build jacocoTestReport
     - name: Upload JaCoCo coverage report as a workflow artifact
       uses: actions/upload-artifact@v4.3.1
       with:
         name: jacoco-report-${{ matrix.os }}
         path: build/reports/jacoco/test/html/
-    - name: Cache Gradle dependencies
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
