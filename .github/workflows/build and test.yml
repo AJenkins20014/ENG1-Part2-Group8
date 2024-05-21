@@ -57,3 +57,13 @@ jobs:
       with:
         name: checkstyle-report
         path: build/reports/checkstyle
+  
+  asset-validation:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+    - uses: actions/checkout@v4
+    - name: Check Asset Integrity
+      run: |
+        find ./assets -type f -exec file {} \;
