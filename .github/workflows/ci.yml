@@ -43,8 +43,8 @@ jobs:
 
     - name: Copy assets to build directory
       run: |
-        mkdir -p build/assets
-        cp -r core/assets/* build/
+        mkdir -p build/
+        cp -r assets/* build/
     - name: Build with Gradle
       run: ./gradlew build
     - name: Run tests
