@@ -4,13 +4,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.2.0" // Add this line if you're using Android Gradle Plugin
+        classpath "com.android.tools.build:gradle:4.2.0"
     }
 }
 
 allprojects {
     apply plugin: "eclipse"
-    apply plugin: "idea" // Apply IDEA plugin for IntelliJ IDEA support
+    apply plugin: "idea"
 
     version = '1.0'
     ext {
@@ -39,7 +39,7 @@ project(":desktop") {
     dependencies {
         implementation project(":core")
         implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-        implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop" // Use implementation instead of natives
+        implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     }
 }
 
@@ -48,7 +48,7 @@ project(":core") {
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
-        implementation "com.google.code.gson:gson:2.8.6" // Update Gson version
+        implementation "com.google.code.gson:gson:2.8.6"
     }
 }
 
@@ -56,35 +56,50 @@ project(":test") {
     apply plugin: "java"
     apply plugin: "jacoco"
 
-    sourceSets.test.java.srcDirs = ["src/"]
+    sourceSets {
+        test {
+            java {
+                srcDirs = ["src"]
+            }
+            resources {
+                srcDirs = ["../assets"]
+            }
+        }
+    }
 
     dependencies {
         implementation project(":core")
-
-        implementation "junit:junit:4.+"
-        implementation 'org.mockito:mockito-core:5.11.0'
-
-        implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
-        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
-
-        testImplementation 'junit:junit:4.+'
-        implementation 'org.mockito:mockito-core:5.11.0'
-
+        testImplementation "junit:junit:4.+"
+        testImplementation 'org.mockito:mockito-core:5.11.0'
         testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     }
 
+    task copyAssets(type: Copy) {
+        from rootProject.file("assets")
+        into "build/assets"
+    }
+
+    test {
+        dependsOn copyAssets
+        systemProperty 'assetsDir', file("$buildDir/assets").absolutePath
+        useJUnit {
+            includeCategories 'com.eng1.heslingtonhustle.GdxTestRunner'
+        }
+        testLogging {
+            events "passed", "skipped", "failed", "standardOut", "standardError"
+        }
+        finalizedBy jacocoTestReport
+    }
+
     jacocoTestReport {
         dependsOn test
-        sourceSets project(':core').sourceSets.main
+        sourceSets project(":core").sourceSets.main
         afterEvaluate {
             classDirectories.setFrom(files(classDirectories.files.collect {
                 fileTree(dir: it, exclude: ['**/*Tests.*', '**/GdxTestRunner.*'])
             }))
         }
-    }
-    test {
-        finalizedBy jacocoTestReport
     }
 }
