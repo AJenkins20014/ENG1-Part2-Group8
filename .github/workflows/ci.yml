@@ -24,8 +24,10 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     - name: Build with Gradle
-      run: ./gradlew build test
+      run: ./project-root/gradlew build
       working-directory: assets
+    - name: Run Tests with Assets
+      run: ./project-root/gradlew test -Dassets.dir=$(pwd)/assets
     - name: Upload JaCoCo Coverage Report
       uses: actions/upload-artifact@v2
       with:
