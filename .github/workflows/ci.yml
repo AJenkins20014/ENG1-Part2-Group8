@@ -25,6 +25,8 @@ jobs:
         distribution: 'adopt'
     - name: Build with Gradle
       run: ./gradlew build test
+    - name: Run Tests
+      run: ./gradlew test
       working-directory: assets
     - name: Upload JaCoCo Coverage Report
       uses: actions/upload-artifact@v2
