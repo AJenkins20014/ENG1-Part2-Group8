@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.eng1.heslingtonhustle.helper.AchievementManager;
 import com.eng1.heslingtonhustle.helper.ScoreManager;
-import com.eng1.heslingtonhustle.Game;
+import com.eng1.heslingtonhustle.game.Game;
 import com.eng1.heslingtonhustle.gameobjects.Day;
 import com.eng1.heslingtonhustle.gameobjects.Time;
 import com.eng1.heslingtonhustle.player.PlayerManager;

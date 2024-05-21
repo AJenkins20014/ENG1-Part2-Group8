@@ -4,7 +4,7 @@
  * initialises manager objects that are crucial for the game
  * to function.
  */
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -13,6 +13,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -62,6 +63,8 @@ public class Game extends ApplicationAdapter {
     public Table leaderboard;
     public ResourceLoader resourceLoader;
     private Texture tutorialTexture;
+    private int tutorialWidth = 1440;
+    private int tutorialHeight = 810;
 
     /**
      * Initialises the game.
@@ -79,8 +82,12 @@ public class Game extends ApplicationAdapter {
         Gdx.graphics.setForegroundFPS(prefs.getInteger("FPS", 60));
         if (!prefs.getBoolean("fullscreen")) {
             Gdx.graphics.setWindowedMode(1440, 810);
+            tutorialWidth = 1440;
+            tutorialHeight = 810;
         } else {
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+            tutorialWidth = Gdx.graphics.getWidth();
+            tutorialHeight = Gdx.graphics.getHeight();
         }
     	
         // Import and play background music
@@ -303,7 +310,6 @@ public class Game extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float deltaTime = Gdx.graphics.getDeltaTime();
-
         if (isStartGame) {
             playerManager.getMovement().update(deltaTime);
             gameManager.update();
@@ -314,7 +320,7 @@ public class Game extends ApplicationAdapter {
         
         else if(showTutorial) {
         	renderingManager.batch.begin();
-            renderingManager.batch.draw(tutorialTexture, 0, 0);
+        	renderingManager.batch.draw(tutorialTexture, 0, 0, tutorialWidth, tutorialHeight);
         	renderingManager.batch.end();
         	
             menuStage.act();

@@ -2,6 +2,7 @@ package com.eng1.heslingtonhustle;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import com.eng1.heslingtonhustle.activities.Eat;
 import com.eng1.heslingtonhustle.activities.Relax;
 import com.eng1.heslingtonhustle.activities.Sleep;
@@ -10,6 +11,7 @@ import com.eng1.heslingtonhustle.activities.Study;
 /**
  * Tests the functionality of various player activities such as eating, relaxing, sleeping, and studying.
  */
+@RunWith(GdxTestRunner.class)
 public class ActivitiesTest {
 
     /**

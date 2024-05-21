@@ -4,7 +4,7 @@
 package com.eng1.heslingtonhustle.player;
 
 import com.badlogic.gdx.math.Vector2;
-import com.eng1.heslingtonhustle.Game;
+import com.eng1.heslingtonhustle.game.Game;
 import com.eng1.heslingtonhustle.gameobjects.Day;
 import com.eng1.heslingtonhustle.gameobjects.Energy;
 import com.eng1.heslingtonhustle.gameobjects.Time;
