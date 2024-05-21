@@ -1,19 +1,3 @@
-/*******************************************************************************
- * Copyright 2015 See AUTHORS file.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
-
 package com.eng1.heslingtonhustle;
 
 import java.util.HashMap;
@@ -27,21 +11,39 @@ import org.junit.runners.model.InitializationError;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.Application;
+
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
+import com.badlogic.gdx.files.FileHandle;
+import static org.mockito.ArgumentMatchers.anyString;
+
 
 public class GdxTestRunner extends BlockJUnit4ClassRunner implements ApplicationListener {
 
 	private Map<FrameworkMethod, RunNotifier> invokeInRender = new HashMap<FrameworkMethod, RunNotifier>();
-
+	
 	public GdxTestRunner(Class<?> klass) throws InitializationError {
 		super(klass);
 		HeadlessApplicationConfiguration conf = new HeadlessApplicationConfiguration();
-
 		new HeadlessApplication(this, conf);
+
 		Gdx.gl = mock(GL20.class);
+		Gdx.gl20 = mock(GL20.class);
+		Gdx.files = mock(Files.class);
+        Gdx.audio = mock(Audio.class);
+		Gdx.app = mock(Application.class);
+
+		FileHandle mockFileHandle = mock(FileHandle.class);
+		when(Gdx.files.internal(anyString())).thenReturn(mockFileHandle);
+		when(mockFileHandle.exists()).thenReturn(true);
+		when(mockFileHandle.name()).thenReturn("mockTexture.png");
+
 	}
 
 	@Override

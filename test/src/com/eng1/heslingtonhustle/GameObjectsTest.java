@@ -2,6 +2,7 @@ package com.eng1.heslingtonhustle;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import com.eng1.heslingtonhustle.gameobjects.Day;
 import com.eng1.heslingtonhustle.gameobjects.Energy;
@@ -10,6 +11,7 @@ import com.eng1.heslingtonhustle.gameobjects.Time;
 /**
  * Tests the functionality and integrity of the game objects: Day, Energy, and Time.
  */
+@RunWith(GdxTestRunner.class)
 public class GameObjectsTest {
 
     /**
