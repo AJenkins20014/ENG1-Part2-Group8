@@ -68,7 +68,7 @@ jobs:
       run: |
         find ./assets -type f -exec file {} \;
   
-  documentation:
+  performance-test:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -79,10 +79,5 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    - name: Generate Documentation
-      run: ./gradlew javadoc
-    - name: Upload Documentation
-      uses: actions/upload-artifact@v4
-      with:
-        name: documentation
-        path: build/docs/javadoc
+    - name: Run Performance Tests
+      run: ./gradlew jmh
