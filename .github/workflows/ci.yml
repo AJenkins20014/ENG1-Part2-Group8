@@ -43,9 +43,11 @@ jobs:
 
     - name: Copy assets to build directory
       run: |
-        mkdir -p build/
-        cp -r assets/* build/
+        mkdir -p test/build/assets
+        cp -r assets/* test/build/assets/
+
     - name: Build with Gradle
       run: ./gradlew build
+
     - name: Run tests
       run: ./gradlew test
