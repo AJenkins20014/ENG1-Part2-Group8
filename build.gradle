@@ -88,7 +88,7 @@ project(":test") {
             includeCategories 'com.eng1.heslingtonhustle.GdxTestRunner'
         }
         testLogging {
-            events "passed", "skipped", "failed"
+            events "passed", "skipped", "failed", "standardOut", "standardError"
         }
         finalizedBy jacocoTestReport
     }
