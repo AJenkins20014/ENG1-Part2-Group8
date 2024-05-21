@@ -2,7 +2,7 @@
  * The GameManager class controls the game logic and interactions between various game elements.
  * It manages player movements, interactions with buildings and activities, as well as the game's progression.
  */
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;

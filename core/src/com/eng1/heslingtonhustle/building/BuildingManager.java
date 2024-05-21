@@ -14,6 +14,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.eng1.heslingtonhustle.map.MapManager;
 import com.google.gson.Gson;
 
+import static com.eng1.heslingtonhustle.game.Game.SCALE;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,8 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.eng1.heslingtonhustle.Game.SCALE;
 
 public class BuildingManager {
 

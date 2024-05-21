@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 
 import com.badlogic.gdx.Gdx;
 import com.eng1.heslingtonhustle.building.BuildingManager;
+import com.eng1.heslingtonhustle.game.Game;
+import com.eng1.heslingtonhustle.game.GameManager;
 import com.eng1.heslingtonhustle.graphics.GameUI;
 import com.eng1.heslingtonhustle.graphics.RenderingManager;
 import com.eng1.heslingtonhustle.helper.ResourceLoader;
