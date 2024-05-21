@@ -88,18 +88,7 @@ project(":test") {
             includeCategories 'com.eng1.heslingtonhustle.GdxTestRunner'
         }
         testLogging {
-            events "passed", "skipped", "failed", "standardOut", "standardError"
-            exceptionFormat "full"
-            showExceptions true
-            showCauses true
-            showStackTraces true
-            showStandardStreams = true
-        }
-        reports {
-            html.enabled = true
-            junitXml.enabled = true
-            junitXml.destination = file("${buildDir}/test-results/test")
-            html.destination = file("${buildDir}/reports/tests/test")
+            events "passed", "skipped", "failed"
         }
         finalizedBy jacocoTestReport
     }
@@ -114,4 +103,3 @@ project(":test") {
         }
     }
 }
-
