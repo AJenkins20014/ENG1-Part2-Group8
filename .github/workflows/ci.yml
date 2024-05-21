@@ -41,13 +41,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
-    - name: Build with Gradle
-      run: ./gradlew build
-
     - name: Copy assets to build directory
       run: |
         mkdir -p build/assets
         cp -r core/assets/* build/
-
+    - name: Build with Gradle
+      run: ./gradlew build
     - name: Run tests
       run: ./gradlew test
