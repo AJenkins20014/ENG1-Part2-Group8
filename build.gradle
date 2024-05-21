@@ -8,7 +8,7 @@ project(":test") {
                 srcDirs = ["src"]
             }
             resources {
-                srcDirs = ["assets"]
+                srcDirs = ["../assets"]
             }
         }
     }
@@ -23,7 +23,7 @@ project(":test") {
     }
 
     task copyAssets(type: Copy) {
-        from project(":core").file("assets")
+        from rootProject.file("assets")
         into "build/assets"
     }
 
