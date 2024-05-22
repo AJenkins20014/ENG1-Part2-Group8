@@ -95,11 +95,7 @@ project(":test") {
 
     jacocoTestReport {
         dependsOn test
-        reports {
-            xml.required.set(true)
-            html.required.set(true)
-            html.outputLocation.set(file("${buildDir}/reports/jacoco"))
-        }
+        sourceSets project(":core").sourceSets.main
         afterEvaluate {
             classDirectories.setFrom(files(classDirectories.files.collect {
                 fileTree(dir: it, exclude: ['**/*Tests.*', '**/GdxTestRunner.*'])
