@@ -39,7 +39,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: lib-${{ matrix.os }}.jar
-        path: build/libs/*.jar
+        path: desktop/build/libs/*.jar
   
   code-quality:
     runs-on: ubuntu-latest
