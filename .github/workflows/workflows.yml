@@ -33,7 +33,7 @@ jobs:
       uses: actions/upload-artifact@v4.3.1
       with:
         name: jacoco-report-${{ matrix.os }}
-        path: test/build/reports/jacoco/html
+        path: test/build/reports/jacoco/test/html
         if-no-files-found: warn
     - name: Upload JAR Artifacts
       uses: actions/upload-artifact@v2
